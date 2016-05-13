@@ -4,6 +4,9 @@
 import CoreData
 
 public enum GameAttributes: String {
+    case cards = "cards"
+    case dateStarted = "dateStarted"
+    case dateUpdated = "dateUpdated"
     case name = "name"
     case turn = "turn"
     case uuid = "uuid"
@@ -33,6 +36,15 @@ public class _Game: NSManagedObject {
     }
 
     // MARK: - Properties
+
+    @NSManaged public
+    var cards: NSData?
+
+    @NSManaged public
+    var dateStarted: NSDate?
+
+    @NSManaged public
+    var dateUpdated: NSDate?
 
     @NSManaged public
     var name: String?

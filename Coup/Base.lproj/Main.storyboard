@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--First-->
+        <!--Games-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="FirstViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9pv-A4-QxB" customClass="GamesViewController" customModule="Coup" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -16,38 +18,134 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="First View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KQZ-1w-vlD">
-                                <rect key="frame" x="221" y="279" width="157.5" height="41.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by FirstViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5M-7J-77L">
-                                <rect key="frame" x="203" y="329" width="194.5" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Sq-0c-SPi">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Games" id="rnB-3c-5lf">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ufs-Tm-8Yx">
+                                            <connections>
+                                                <action selector="addNewMatch:" destination="9pv-A4-QxB" id="Xok-Ei-2Pc"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1Eh-sf-n8r">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="487" id="ySh-gB-1ng"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="9pv-A4-QxB" id="xh7-gG-m79"/>
+                                    <outlet property="delegate" destination="9pv-A4-QxB" id="yZn-l5-DwP"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
-                            <constraint firstItem="A5M-7J-77L" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="8" symbolic="YES" id="cfb-er-3JN"/>
-                            <constraint firstItem="A5M-7J-77L" firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="e1l-AV-tCB"/>
-                            <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
+                            <constraint firstItem="1Eh-sf-n8r" firstAttribute="leading" secondItem="5Sq-0c-SPi" secondAttribute="leading" id="BB9-3a-ZOc"/>
+                            <constraint firstItem="5Sq-0c-SPi" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="HhO-lJ-lvD"/>
+                            <constraint firstItem="1Eh-sf-n8r" firstAttribute="top" secondItem="5Sq-0c-SPi" secondAttribute="bottom" id="L1d-w6-jqf"/>
+                            <constraint firstItem="1Eh-sf-n8r" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="UDx-em-LWb"/>
+                            <constraint firstItem="1Eh-sf-n8r" firstAttribute="trailing" secondItem="5Sq-0c-SPi" secondAttribute="trailing" id="c0U-py-goq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1Eh-sf-n8r" secondAttribute="trailing" constant="-20" id="diF-Qe-Egw"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Games" image="games" id="acW-dT-cKf"/>
+                    <connections>
+                        <outlet property="gamesTableView" destination="1Eh-sf-n8r" id="EtQ-td-qOf"/>
+                        <segue destination="joc-V2-9Wa" kind="show" identifier="enterGame" action="showDetailViewController:sender:" id="oSe-A0-FDB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="750" y="-320"/>
         </scene>
-        <!--Second-->
+        <!--Multiplayer-->
+        <scene sceneID="feI-KS-W9i">
+            <objects>
+                <viewController id="joc-V2-9Wa" userLabel="Multiplayer" customClass="MultiplayerViewController" customModule="Coup" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="glZ-8Z-daS"/>
+                        <viewControllerLayoutGuide type="bottom" id="PU8-KZ-46n"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Pje-6I-kxI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQc-xm-Nja">
+                                <rect key="frame" x="517" y="57" width="30" height="30"/>
+                                <state key="normal" title="Exit"/>
+                                <connections>
+                                    <segue destination="BcQ-Ax-19M" kind="unwind" unwindAction="exitMultiplayerView:" id="NdA-B4-r88"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backCard" translatesAutoresizingMaskIntoConstraints="NO" id="Q6M-XO-agk" userLabel="Card 1">
+                                <rect key="frame" x="490" y="348" width="57" height="80"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="57" id="ZiJ-Eh-BEr"/>
+                                    <constraint firstAttribute="height" constant="80" id="dki-OK-cQB"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="nyp-Dt-egu" appends="YES" id="Km3-33-ezw"/>
+                                </connections>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zmd-fx-8Rs" userLabel="Opponent Feild">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="258"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backCard" translatesAutoresizingMaskIntoConstraints="NO" id="oqv-MF-Afv" userLabel="Card 2">
+                                <rect key="frame" x="425" y="348" width="57" height="80"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="57" id="fJK-2u-bgb"/>
+                                    <constraint firstAttribute="height" constant="80" id="srX-6j-Q6Z"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="cbP-6p-CM4" appends="YES" id="Lef-Tf-APJ"/>
+                                </connections>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Zmd-fx-8Rs" secondAttribute="bottom" constant="293" id="61B-Mm-GlW"/>
+                            <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Q6M-XO-agk" secondAttribute="bottom" constant="123" id="9oT-E4-Lkp"/>
+                            <constraint firstItem="Q6M-XO-agk" firstAttribute="leading" secondItem="oqv-MF-Afv" secondAttribute="trailing" constant="8" symbolic="YES" id="9sk-I8-vMl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Q6M-XO-agk" secondAttribute="trailing" constant="33" id="Bvl-Lt-aQV"/>
+                            <constraint firstItem="Zmd-fx-8Rs" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" constant="-20" id="UGx-Uc-hvT"/>
+                            <constraint firstItem="Q6M-XO-agk" firstAttribute="bottom" secondItem="oqv-MF-Afv" secondAttribute="bottom" id="r6j-Fm-RN6"/>
+                            <constraint firstItem="Zmd-fx-8Rs" firstAttribute="top" secondItem="Pje-6I-kxI" secondAttribute="topMargin" id="sfe-DU-Cep"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gQc-xm-Nja" secondAttribute="trailing" constant="33" id="wVm-L1-0Kb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zmd-fx-8Rs" secondAttribute="trailing" constant="-20" id="wWj-dD-jti"/>
+                            <constraint firstItem="gQc-xm-Nja" firstAttribute="top" secondItem="glZ-8Z-daS" secondAttribute="bottom" constant="37" id="zWa-K9-i14"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="firstCard" destination="Q6M-XO-agk" id="H1H-Gr-6uL"/>
+                        <outlet property="opponentFeild" destination="Zmd-fx-8Rs" id="UGl-by-cSP"/>
+                        <outlet property="secondCard" destination="oqv-MF-Afv" id="ek0-fX-mHq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a1Q-oh-PqN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="BcQ-Ax-19M" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="nyp-Dt-egu" userLabel="card1Tap">
+                    <connections>
+                        <action selector="tappedCard1:" destination="joc-V2-9Wa" id="i5B-FD-eJs"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="cbP-6p-CM4" userLabel="card2Tap">
+                    <connections>
+                        <action selector="tappedCard2:" destination="joc-V2-9Wa" id="rKq-tX-GUj"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1474" y="-320"/>
+        </scene>
+        <!--Scores-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="Coup" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
                         <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
@@ -60,13 +158,13 @@
                                 <rect key="frame" x="195" y="279" width="209.5" height="41.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by SecondViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDk-cv-Gan">
                                 <rect key="frame" x="192" y="329" width="215.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -78,7 +176,7 @@
                             <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Scores" image="scores" id="cPa-gy-q4n"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
@@ -105,7 +203,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="backCard" width="158" height="222"/>
+        <image name="games" width="30" height="30"/>
+        <image name="scores" width="30" height="30"/>
     </resources>
 </document>
