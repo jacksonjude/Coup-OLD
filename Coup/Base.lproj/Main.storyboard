@@ -88,9 +88,6 @@
                                     <constraint firstAttribute="width" constant="57" id="ZiJ-Eh-BEr"/>
                                     <constraint firstAttribute="height" constant="80" id="dki-OK-cQB"/>
                                 </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="nyp-Dt-egu" appends="YES" id="Km3-33-ezw"/>
-                                </connections>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zmd-fx-8Rs" userLabel="Opponent Feild">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="258"/>
@@ -102,10 +99,14 @@
                                     <constraint firstAttribute="width" constant="57" id="fJK-2u-bgb"/>
                                     <constraint firstAttribute="height" constant="80" id="srX-6j-Q6Z"/>
                                 </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="cbP-6p-CM4" appends="YES" id="Lef-Tf-APJ"/>
-                                </connections>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qrg-8f-ezG">
+                                <rect key="frame" x="20" y="348" width="62" height="30"/>
+                                <state key="normal" title="Organize"/>
+                                <connections>
+                                    <action selector="organizeTapped:" destination="joc-V2-9Wa" eventType="touchUpInside" id="dXu-Vf-UEt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -114,10 +115,12 @@
                             <constraint firstItem="Q6M-XO-agk" firstAttribute="leading" secondItem="oqv-MF-Afv" secondAttribute="trailing" constant="8" symbolic="YES" id="9sk-I8-vMl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Q6M-XO-agk" secondAttribute="trailing" constant="33" id="Bvl-Lt-aQV"/>
                             <constraint firstItem="Zmd-fx-8Rs" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" constant="-20" id="UGx-Uc-hvT"/>
+                            <constraint firstItem="qrg-8f-ezG" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" id="bYR-gt-TYK"/>
                             <constraint firstItem="Q6M-XO-agk" firstAttribute="bottom" secondItem="oqv-MF-Afv" secondAttribute="bottom" id="r6j-Fm-RN6"/>
                             <constraint firstItem="Zmd-fx-8Rs" firstAttribute="top" secondItem="Pje-6I-kxI" secondAttribute="topMargin" id="sfe-DU-Cep"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gQc-xm-Nja" secondAttribute="trailing" constant="33" id="wVm-L1-0Kb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zmd-fx-8Rs" secondAttribute="trailing" constant="-20" id="wWj-dD-jti"/>
+                            <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="qrg-8f-ezG" secondAttribute="bottom" constant="173" id="yMs-QV-Hp4"/>
                             <constraint firstItem="gQc-xm-Nja" firstAttribute="top" secondItem="glZ-8Z-daS" secondAttribute="bottom" constant="37" id="zWa-K9-i14"/>
                         </constraints>
                     </view>
@@ -129,16 +132,6 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a1Q-oh-PqN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="BcQ-Ax-19M" userLabel="Exit" sceneMemberID="exit"/>
-                <tapGestureRecognizer id="nyp-Dt-egu" userLabel="card1Tap">
-                    <connections>
-                        <action selector="tappedCard1:" destination="joc-V2-9Wa" id="i5B-FD-eJs"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer id="cbP-6p-CM4" userLabel="card2Tap">
-                    <connections>
-                        <action selector="tappedCard2:" destination="joc-V2-9Wa" id="rKq-tX-GUj"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1474" y="-320"/>
         </scene>

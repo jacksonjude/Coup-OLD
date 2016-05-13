@@ -256,6 +256,16 @@ class MultiplayerViewController: UIViewController
                 self.gamesViewController!.sendData(self.match, withData: moveData)
             }
         }
+        
+        if CGRectContainsPoint(self.firstCard.frame, touches.first!.locationInView(self.view))
+        {
+            self.flipCard(1)
+        }
+        
+        if CGRectContainsPoint(self.secondCard.frame, touches.first!.locationInView(self.view))
+        {
+            self.flipCard(2)
+        }
     }
     
     func formatData(keys: [String], values: [AnyObject]) -> NSData
@@ -477,16 +487,6 @@ class MultiplayerViewController: UIViewController
         }
     }
     
-    @IBAction func tappedCard1(sender: AnyObject)
-    {
-        self.flipCard(1)
-    }
-    
-    @IBAction func tappedCard2(sender: AnyObject)
-    {
-        self.flipCard(2)
-    }
-    
     func flipCard(cardOrig: Int)
     {
         let card = cardOrig - 1
@@ -515,6 +515,11 @@ class MultiplayerViewController: UIViewController
                 self.setCardImages(false, secondCardShouldDraw: true)
             }
         }
+    }
+    
+    @IBAction func organizeTapped(sender: AnyObject)
+    {
+        self.organizeCoins()
     }
     
     func organizeCoins()
