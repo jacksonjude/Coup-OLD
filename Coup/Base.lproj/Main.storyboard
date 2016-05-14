@@ -89,9 +89,6 @@
                                     <constraint firstAttribute="height" constant="80" id="dki-OK-cQB"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zmd-fx-8Rs" userLabel="Opponent Feild">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="258"/>
-                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backCard" translatesAutoresizingMaskIntoConstraints="NO" id="oqv-MF-Afv" userLabel="Card 2">
                                 <rect key="frame" x="425" y="348" width="57" height="80"/>
                                 <gestureRecognizers/>
@@ -107,33 +104,76 @@
                                     <action selector="organizeTapped:" destination="joc-V2-9Wa" eventType="touchUpInside" id="dXu-Vf-UEt"/>
                                 </connections>
                             </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dKs-ss-sd9">
+                                <rect key="frame" x="51" y="0.0" width="499" height="224"/>
+                                <connections>
+                                    <segue destination="UsC-uS-jCf" kind="embed" id="1A0-MY-Ge9"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Zmd-fx-8Rs" secondAttribute="bottom" constant="293" id="61B-Mm-GlW"/>
                             <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Q6M-XO-agk" secondAttribute="bottom" constant="123" id="9oT-E4-Lkp"/>
                             <constraint firstItem="Q6M-XO-agk" firstAttribute="leading" secondItem="oqv-MF-Afv" secondAttribute="trailing" constant="8" symbolic="YES" id="9sk-I8-vMl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dKs-ss-sd9" secondAttribute="trailing" constant="30" id="9xH-Vf-Qk7"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Q6M-XO-agk" secondAttribute="trailing" constant="33" id="Bvl-Lt-aQV"/>
-                            <constraint firstItem="Zmd-fx-8Rs" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" constant="-20" id="UGx-Uc-hvT"/>
+                            <constraint firstItem="dKs-ss-sd9" firstAttribute="centerX" secondItem="Pje-6I-kxI" secondAttribute="centerX" id="YQt-zq-b7O"/>
                             <constraint firstItem="qrg-8f-ezG" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" id="bYR-gt-TYK"/>
+                            <constraint firstAttribute="bottom" secondItem="dKs-ss-sd9" secondAttribute="bottom" constant="376" id="nWv-UA-Fpj"/>
                             <constraint firstItem="Q6M-XO-agk" firstAttribute="bottom" secondItem="oqv-MF-Afv" secondAttribute="bottom" id="r6j-Fm-RN6"/>
-                            <constraint firstItem="Zmd-fx-8Rs" firstAttribute="top" secondItem="Pje-6I-kxI" secondAttribute="topMargin" id="sfe-DU-Cep"/>
+                            <constraint firstItem="dKs-ss-sd9" firstAttribute="top" secondItem="Pje-6I-kxI" secondAttribute="top" id="tzh-OL-HMt"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gQc-xm-Nja" secondAttribute="trailing" constant="33" id="wVm-L1-0Kb"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Zmd-fx-8Rs" secondAttribute="trailing" constant="-20" id="wWj-dD-jti"/>
                             <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="qrg-8f-ezG" secondAttribute="bottom" constant="173" id="yMs-QV-Hp4"/>
                             <constraint firstItem="gQc-xm-Nja" firstAttribute="top" secondItem="glZ-8Z-daS" secondAttribute="bottom" constant="37" id="zWa-K9-i14"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="firstCard" destination="Q6M-XO-agk" id="H1H-Gr-6uL"/>
-                        <outlet property="opponentFeild" destination="Zmd-fx-8Rs" id="UGl-by-cSP"/>
+                        <outlet property="opponentsViewControllerContainer" destination="dKs-ss-sd9" id="XTj-nw-xUl"/>
                         <outlet property="secondCard" destination="oqv-MF-Afv" id="ek0-fX-mHq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a1Q-oh-PqN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="BcQ-Ax-19M" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1474" y="-320"/>
+            <point key="canvasLocation" x="1476" y="-320"/>
+        </scene>
+        <!--Opponents-->
+        <scene sceneID="hqL-ji-dPp">
+            <objects>
+                <collectionViewController id="UsC-uS-jCf" userLabel="Opponents" customClass="OpponentsViewController" customModule="Coup" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="fjd-df-vfd">
+                        <rect key="frame" x="0.0" y="0.0" width="499" height="224"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CEo-H6-vUj">
+                            <size key="itemSize" width="498" height="225"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OpponentCell" id="c31-vo-9ss">
+                                <rect key="frame" x="0.5" y="0.0" width="498" height="225"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="498" height="225"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="UsC-uS-jCf" id="zqm-Yb-0wg"/>
+                            <outlet property="delegate" destination="UsC-uS-jCf" id="nqm-3x-Pa5"/>
+                        </connections>
+                    </collectionView>
+                    <connections>
+                        <outlet property="opponentsView" destination="fjd-df-vfd" id="UD2-2Z-KJW"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f61-Mf-oWE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2152.5" y="-320"/>
         </scene>
         <!--Scores-->
         <scene sceneID="wg7-f3-ORb">

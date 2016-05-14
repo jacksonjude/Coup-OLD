@@ -33,6 +33,7 @@
 		7A046EDD1CDEF0A700F20493 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046EDB1CDEF0A700F20493 /* Game.swift */; };
 		7A046EDF1CDEFF8800F20493 /* MultiplayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046EDE1CDEFF8800F20493 /* MultiplayerViewController.swift */; };
 		7A046EE11CE0438800F20493 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046EE01CE0438800F20493 /* Coin.swift */; };
+		7A167D5F1CE6A63D00712F53 /* OpponentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A167D5E1CE6A63D00712F53 /* OpponentsViewController.swift */; };
 		7AF5D6EB1CE4162C00833E48 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AF5D6EA1CE4162C00833E48 /* GameKit.framework */; };
 		7AF5D6ED1CE4163400833E48 /* GameplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AF5D6EC1CE4163400833E48 /* GameplayKit.framework */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		7A046EDB1CDEF0A700F20493 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = Model/Game.swift; sourceTree = "<group>"; };
 		7A046EDE1CDEFF8800F20493 /* MultiplayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerViewController.swift; sourceTree = "<group>"; };
 		7A046EE01CE0438800F20493 /* Coin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		7A167D5E1CE6A63D00712F53 /* OpponentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentsViewController.swift; sourceTree = "<group>"; };
 		7AF5D6EA1CE4162C00833E48 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		7AF5D6EC1CE4163400833E48 /* GameplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameplayKit.framework; path = System/Library/Frameworks/GameplayKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 				7A046EBB1CDEE65500F20493 /* GamesViewController.swift */,
 				7A046EBD1CDEE65500F20493 /* SecondViewController.swift */,
 				7A046EDE1CDEFF8800F20493 /* MultiplayerViewController.swift */,
+				7A167D5E1CE6A63D00712F53 /* OpponentsViewController.swift */,
 				7A046ECF1CDEEB0600F20493 /* TableViewController.swift */,
 				7A046EE01CE0438800F20493 /* Coin.swift */,
 				7A046EBF1CDEE65500F20493 /* Main.storyboard */,
@@ -217,6 +220,7 @@
 				7A046EDF1CDEFF8800F20493 /* MultiplayerViewController.swift in Sources */,
 				7A046EDC1CDEF0A700F20493 /* _Game.swift in Sources */,
 				7A046EDD1CDEF0A700F20493 /* Game.swift in Sources */,
+				7A167D5F1CE6A63D00712F53 /* OpponentsViewController.swift in Sources */,
 				7A046EBA1CDEE65500F20493 /* AppDelegate.swift in Sources */,
 				7A046EBC1CDEE65500F20493 /* GamesViewController.swift in Sources */,
 				7A046ED81CDEF03C00F20493 /* Coup.xcdatamodeld in Sources */,

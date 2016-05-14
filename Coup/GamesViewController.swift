@@ -230,6 +230,15 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         }
     }
     
+    func match(match: GKMatch, didFailWithError error: NSError?)
+    {
+        
+    }
+    
+    func player(player: GKPlayer, didRequestMatchWithPlayers playerIDsToInvite: [String]) {
+        
+    }
+    
     @IBAction func addNewMatch(sender: AnyObject)
     {
         self.insertNewObject(self, name: "Game", uuid: NSUUID().UUIDString)

@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 import GameKit
-import GameplayKit
 
 class MultiplayerViewController: UIViewController
 {
@@ -26,15 +25,15 @@ class MultiplayerViewController: UIViewController
     var cards: [Int] = []
     var coins: [Coin] = []
     var playerGoing = 1
-    var coinsMovedThisTurn = false
     var targetPlayer = 0
     var playerSelected = false
     var selectedMove = ""
     var cardsFlipped: [Bool] = [false, false]
+    var opponentPressTimer = NSDate()
     
     @IBOutlet weak var firstCard: UIImageView!
     @IBOutlet weak var secondCard: UIImageView!
-    @IBOutlet weak var opponentFeild: UIImageView!
+    @IBOutlet weak var opponentsViewControllerContainer: UIView!
     
     override func viewDidLoad()
     {
@@ -71,141 +70,24 @@ class MultiplayerViewController: UIViewController
         self.gamesViewController!.sendData(self.match, withData: hostData)
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         for coin in self.coins
         {
-            if coin.selectable && coin.selected
+            if coin.selectable && CGRectContainsPoint(coin.frame, touches.first!.locationInView(self.view))
             {
-                let touch : UITouch! = touches.first! as UITouch
-                let location = touch.locationInView(self.view)
-                
-                coin.center = location
-                
-                self.coinsMovedThisTurn = true
-            }
-        }
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
-    {
-        if !self.coinsMovedThisTurn
-        {
-            for coin in self.coins
-            {
-                if coin.selectable && CGRectContainsPoint(coin.frame, touches.first!.locationInView(self.view))
+                coin.selected = !coin.selected
+                if coin.selected == false
                 {
-                    coin.selected = !coin.selected
-                    if coin.selected == false
-                    {
-                        coin.image = UIImage(named: "coin")
-                    }
-                    
-                    var coinsSelected = 0
-                    var move = ""
-                    
-                    for coinSelectedTest in self.coins
-                    {
-                        if coinSelectedTest.selected
-                        {
-                            coinsSelected += 1
-                        }
-                    }
-                    
-                    if coinsSelected == 3
-                    {
-                        move = "assasinate"
-                    }
-                    
-                    if coinsSelected == 7
-                    {
-                        move = "coup"
-                    }
-                    
-                    if coinsSelected == 0 && self.playerSelected
-                    {
-                        move = "steal"
-                    }
-                    
-                    var lie = false
-                    var confirmed = false
-                    
-                    for card in self.cards
-                    {
-                        if !confirmed
-                        {
-                            if card == 1 && move == "assasinate" && !confirmed
-                            {
-                                lie = false
-                                confirmed = true
-                            }
-                            else
-                            {
-                                lie = true
-                            }
-                        }
-                        
-                        if !confirmed
-                        {
-                            if card == 3 && move == "steal" && !confirmed
-                            {
-                                lie = false
-                                confirmed = true
-                            }
-                            else
-                            {
-                                lie = true
-                            }
-                        }
-                    }
-                    
-                    if move != ""
-                    {
-                        if lie == true
-                        {
-                            for coinToChange in self.coins
-                            {
-                                if coinToChange.selected
-                                {
-                                    coinToChange.image = UIImage(named: "coinLie")
-                                }
-                            }
-                        }
-                        else
-                        {
-                            for coinToChange in self.coins
-                            {
-                                if coinToChange.selected
-                                {
-                                    coinToChange.image = UIImage(named: "coinTrue")
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for coinToChange in self.coins
-                        {
-                            if coinToChange.selected
-                            {
-                                coinToChange.image = UIImage(named: "coinSelected")
-                            }
-                        }
-                    }
+                    coin.image = UIImage(named: "coin")
                 }
-            }
-        }
-        else
-        {
-            self.coinsMovedThisTurn = false
-            if CGRectContainsPoint(self.opponentFeild.frame, touches.first!.locationInView(self.view))
-            {
+                
                 var coinsSelected = 0
                 var move = ""
                 
-                for coin in self.coins
+                for coinSelectedTest in self.coins
                 {
-                    if coin.selected
+                    if coinSelectedTest.selected
                     {
                         coinsSelected += 1
                     }
@@ -231,29 +113,66 @@ class MultiplayerViewController: UIViewController
                 
                 for card in self.cards
                 {
-                    if card == 1 && move == "assasinate" && !confirmed
+                    if !confirmed
                     {
-                        lie = false
-                        confirmed = true
-                    }
-                    else
-                    {
-                        lie = true
+                        if card == 1 && move == "assasinate" && !confirmed
+                        {
+                            lie = false
+                            confirmed = true
+                        }
+                        else
+                        {
+                            lie = true
+                        }
                     }
                     
-                    if card == 3 && move == "steal" && !confirmed
+                    if !confirmed
                     {
-                        lie = false
-                        confirmed = true
-                    }
-                    else
-                    {
-                        lie = true
+                        if card == 3 && move == "steal" && !confirmed
+                        {
+                            lie = false
+                            confirmed = true
+                        }
+                        else
+                        {
+                            lie = true
+                        }
                     }
                 }
                 
-                let moveData = self.formatData(["message", "move", "lie", "targetPlayer"], values: ["playAction", move, lie, targetPlayer])
-                self.gamesViewController!.sendData(self.match, withData: moveData)
+                if move != ""
+                {
+                    if lie == true
+                    {
+                        for coinToChange in self.coins
+                        {
+                            if coinToChange.selected
+                            {
+                                coinToChange.image = UIImage(named: "coinLie")
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for coinToChange in self.coins
+                        {
+                            if coinToChange.selected
+                            {
+                                coinToChange.image = UIImage(named: "coinTrue")
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    for coinToChange in self.coins
+                    {
+                        if coinToChange.selected
+                        {
+                            coinToChange.image = UIImage(named: "coinSelected")
+                        }
+                    }
+                }
             }
         }
         
@@ -265,6 +184,23 @@ class MultiplayerViewController: UIViewController
         if CGRectContainsPoint(self.secondCard.frame, touches.first!.locationInView(self.view))
         {
             self.flipCard(2)
+        }
+        
+        if CGRectContainsPoint(self.opponentsViewControllerContainer.frame, touches.first!.locationInView(self.view))
+        {
+            let splitTimeInterval = NSDate().timeIntervalSinceDate(self.opponentPressTimer)
+            if splitTimeInterval < 1.0
+            {
+                //self.targetPlayer
+                
+                print("Play Action Here")
+                
+                //self.playAction()
+            }
+            else
+            {
+                self.opponentPressTimer = NSDate()
+            }
         }
     }
     
@@ -535,5 +471,63 @@ class MultiplayerViewController: UIViewController
             
             coinNumber += 1
         }
+    }
+    
+    func playAction()
+    {
+        var coinsSelected = 0
+        var move = ""
+        
+        for coin in self.coins
+        {
+            if coin.selected
+            {
+                coinsSelected += 1
+            }
+        }
+        
+        if coinsSelected == 3
+        {
+            move = "assasinate"
+        }
+        
+        if coinsSelected == 7
+        {
+            move = "coup"
+        }
+        
+        if coinsSelected == 0 && self.playerSelected
+        {
+            move = "steal"
+        }
+        
+        var lie = false
+        var confirmed = false
+        
+        for card in self.cards
+        {
+            if card == 1 && move == "assasinate" && !confirmed
+            {
+                lie = false
+                confirmed = true
+            }
+            else
+            {
+                lie = true
+            }
+            
+            if card == 3 && move == "steal" && !confirmed
+            {
+                lie = false
+                confirmed = true
+            }
+            else
+            {
+                lie = true
+            }
+        }
+        
+        let moveData = self.formatData(["message", "move", "lie", "targetPlayer"], values: ["playAction", move, lie, targetPlayer])
+        self.gamesViewController!.sendData(self.match, withData: moveData)
     }
 }
