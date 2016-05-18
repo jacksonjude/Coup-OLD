@@ -74,13 +74,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQc-xm-Nja">
-                                <rect key="frame" x="517" y="57" width="30" height="30"/>
-                                <state key="normal" title="Exit"/>
-                                <connections>
-                                    <segue destination="BcQ-Ax-19M" kind="unwind" unwindAction="exitMultiplayerView:" id="NdA-B4-r88"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backCard" translatesAutoresizingMaskIntoConstraints="NO" id="Q6M-XO-agk" userLabel="Card 1">
                                 <rect key="frame" x="490" y="348" width="57" height="80"/>
                                 <gestureRecognizers/>
@@ -110,21 +103,30 @@
                                     <segue destination="UsC-uS-jCf" kind="embed" id="1A0-MY-Ge9"/>
                                 </connections>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQc-xm-Nja">
+                                <rect key="frame" x="558" y="49" width="42" height="30"/>
+                                <state key="normal" title="Exit"/>
+                                <connections>
+                                    <segue destination="BcQ-Ax-19M" kind="unwind" unwindAction="exitMultiplayerView:" id="NdA-B4-r88"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Q6M-XO-agk" secondAttribute="bottom" constant="123" id="9oT-E4-Lkp"/>
                             <constraint firstItem="Q6M-XO-agk" firstAttribute="leading" secondItem="oqv-MF-Afv" secondAttribute="trailing" constant="8" symbolic="YES" id="9sk-I8-vMl"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="dKs-ss-sd9" secondAttribute="trailing" constant="30" id="9xH-Vf-Qk7"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Q6M-XO-agk" secondAttribute="trailing" constant="33" id="Bvl-Lt-aQV"/>
+                            <constraint firstAttribute="bottom" secondItem="dKs-ss-sd9" secondAttribute="bottom" constant="376" id="Dow-yD-IAc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dKs-ss-sd9" secondAttribute="trailing" constant="30" id="HNn-lm-6eI"/>
+                            <constraint firstItem="dKs-ss-sd9" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" constant="31" id="J5Y-aL-n6S"/>
                             <constraint firstItem="dKs-ss-sd9" firstAttribute="centerX" secondItem="Pje-6I-kxI" secondAttribute="centerX" id="YQt-zq-b7O"/>
                             <constraint firstItem="qrg-8f-ezG" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" id="bYR-gt-TYK"/>
-                            <constraint firstAttribute="bottom" secondItem="dKs-ss-sd9" secondAttribute="bottom" constant="376" id="nWv-UA-Fpj"/>
+                            <constraint firstItem="dKs-ss-sd9" firstAttribute="top" secondItem="Pje-6I-kxI" secondAttribute="topMargin" id="eOH-fa-DKq"/>
+                            <constraint firstItem="gQc-xm-Nja" firstAttribute="leading" secondItem="dKs-ss-sd9" secondAttribute="trailing" constant="8" id="eiY-Et-vp7"/>
                             <constraint firstItem="Q6M-XO-agk" firstAttribute="bottom" secondItem="oqv-MF-Afv" secondAttribute="bottom" id="r6j-Fm-RN6"/>
-                            <constraint firstItem="dKs-ss-sd9" firstAttribute="top" secondItem="Pje-6I-kxI" secondAttribute="top" id="tzh-OL-HMt"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="gQc-xm-Nja" secondAttribute="trailing" constant="33" id="wVm-L1-0Kb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gQc-xm-Nja" secondAttribute="trailing" constant="-20" id="wVm-L1-0Kb"/>
                             <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="qrg-8f-ezG" secondAttribute="bottom" constant="173" id="yMs-QV-Hp4"/>
-                            <constraint firstItem="gQc-xm-Nja" firstAttribute="top" secondItem="glZ-8Z-daS" secondAttribute="bottom" constant="37" id="zWa-K9-i14"/>
+                            <constraint firstItem="gQc-xm-Nja" firstAttribute="top" secondItem="glZ-8Z-daS" secondAttribute="bottom" constant="29" id="zWa-K9-i14"/>
                         </constraints>
                     </view>
                     <connections>
