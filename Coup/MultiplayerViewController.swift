@@ -25,15 +25,18 @@ class MultiplayerViewController: UIViewController
     var cards: [Int] = []
     var coins: [Coin] = []
     var playerGoing = 1
-    var targetPlayer = 0
+    var targetPlayer = 1
     var playerSelected = false
     var selectedMove = ""
     var cardsFlipped: [Bool] = [false, false]
     var opponentPressTimer = NSDate()
+    var canChallenge = false
+    var initilizeProcess = true
     
     @IBOutlet weak var firstCard: UIImageView!
     @IBOutlet weak var secondCard: UIImageView!
     @IBOutlet weak var opponentsViewControllerContainer: UIView!
+    @IBOutlet weak var challengeButton: UIButton!
     
     override func viewDidLoad()
     {
@@ -49,6 +52,8 @@ class MultiplayerViewController: UIViewController
             
             self.view.addSubview(coin)
         }
+        
+        self.toggleChallengeButton()
         
         let background = UIImageView()
         background.image = UIImage(named: "background")
@@ -68,6 +73,20 @@ class MultiplayerViewController: UIViewController
         
         let hostData = self.formatData(["message", "host"], values: ["hostNumber", self.hostNumber!])
         self.gamesViewController!.sendData(self.match, withData: hostData)
+    }
+    
+    func toggleChallengeButton()
+    {
+        self.canChallenge = !self.canChallenge
+        
+        if self.canChallenge
+        {
+            self.challengeButton.enabled = true
+        }
+        else
+        {
+            self.challengeButton.enabled = false
+        }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
@@ -185,23 +204,6 @@ class MultiplayerViewController: UIViewController
         {
             self.flipCard(2)
         }
-        
-        if CGRectContainsPoint(self.opponentsViewControllerContainer.frame, touches.first!.locationInView(self.view))
-        {
-            let splitTimeInterval = NSDate().timeIntervalSinceDate(self.opponentPressTimer)
-            if splitTimeInterval < 1.0
-            {
-                //self.targetPlayer
-                
-                print("Play Action Here")
-                
-                //self.playAction()
-            }
-            else
-            {
-                self.opponentPressTimer = NSDate()
-            }
-        }
     }
     
     func formatData(keys: [String], values: [AnyObject]) -> NSData
@@ -243,8 +245,7 @@ class MultiplayerViewController: UIViewController
                     self.host = true
                 }
                 
-                print("Host:")
-                print(self.host)
+                print("Host: \(self.host)")
                 
                 self.hostNumbers.sortInPlace {
                     return $0 < $1
@@ -264,8 +265,7 @@ class MultiplayerViewController: UIViewController
                         playerNumber += 1
                     }
                     
-                    print("PlayerNumber:")
-                    print(self.playerNumber)
+                    print("PlayerNumber: \(self.playerNumber)")
                     
                     self.loadCards()
                 }
@@ -274,24 +274,56 @@ class MultiplayerViewController: UIViewController
         
         if message == "turnOrder"
         {
+            let playerOrder = unarchiver.decodeObjectForKey("playerOrder") as! NSNumber
             let testHostNumber = unarchiver.decodeObjectForKey("hostNumber") as! NSNumber
             if testHostNumber == self.hostNumber
             {
-                let playerOrder = unarchiver.decodeObjectForKey("playerOrder") as! NSNumber
                 self.playerNumber = Int(playerOrder)
                 
-                print("PlayerNumber:")
-                print(self.playerNumber)
+                print("PlayerNumber: \(self.playerNumber)")
             }
             else
             {
                 self.recivedTurns += 1
             }
+            
+            //undo
+            self.targetPlayer = Int(playerOrder)
         }
         
         if message == "playAction"
         {
+            print("Recived Action...")
             
+            let action = unarchiver.decodeObjectForKey("action") as! Action
+            
+            if action.defendingPlayer == self.playerNumber
+            {
+                let lie = action.lie
+                let move: Action.ActionType = action.actionType
+                let opposingPlayer = action.attackingPlayer
+                
+                print("Player \(opposingPlayer) \(move)s You!")
+                
+                if move == .Assasinate
+                {
+                    print("Choose a card to lose or block this action")
+                }
+                
+                if move == .Steal
+                {
+                    print("Block this action or agree")
+                }
+                
+                if move == .Coup
+                {
+                    print("Choose a card to lose")
+                }
+                
+                print("This is a lie: \(lie)")
+                
+                self.defendAction(action)
+            }
         }
         
         if message == "endTurn"
@@ -360,6 +392,8 @@ class MultiplayerViewController: UIViewController
         {
             self.startTurn()
         }
+        
+        self.initilizeProcess = false
     }
     
     func setCardImages(firstCardShouldDraw: Bool, secondCardShouldDraw: Bool)
@@ -409,7 +443,10 @@ class MultiplayerViewController: UIViewController
                 }
             }
             
-            print("Got " + cardType)
+            if self.initilizeProcess
+            {
+                print("Got " + cardType)
+            }
             
             imageNumber += 1
         }
@@ -453,9 +490,9 @@ class MultiplayerViewController: UIViewController
         }
     }
     
-    @IBAction func organizeTapped(sender: AnyObject)
+    @IBAction func challengeTapped(sender: AnyObject)
     {
-        self.organizeCoins()
+        //Challenge Here
     }
     
     func organizeCoins()
@@ -473,10 +510,19 @@ class MultiplayerViewController: UIViewController
         }
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if segue.identifier == "openOpponentsView"
+        {
+            let opponentsView = segue.destinationViewController as! OpponentsViewController
+            opponentsView.multiplayerViewController = self
+        }
+    }
+    
     func playAction()
     {
         var coinsSelected = 0
-        var move = ""
+        var move: Action.ActionType = .None
         
         for coin in self.coins
         {
@@ -488,17 +534,17 @@ class MultiplayerViewController: UIViewController
         
         if coinsSelected == 3
         {
-            move = "assasinate"
+            move = .Assasinate
         }
         
         if coinsSelected == 7
         {
-            move = "coup"
+            move = .Coup
         }
         
         if coinsSelected == 0 && self.playerSelected
         {
-            move = "steal"
+            move = .Steal
         }
         
         var lie = false
@@ -506,28 +552,46 @@ class MultiplayerViewController: UIViewController
         
         for card in self.cards
         {
-            if card == 1 && move == "assasinate" && !confirmed
+            if !confirmed
             {
-                lie = false
-                confirmed = true
-            }
-            else
-            {
-                lie = true
+                if card == 1 && move == .Assasinate && !confirmed
+                {
+                    lie = false
+                    confirmed = true
+                }
+                else
+                {
+                    lie = true
+                }
             }
             
-            if card == 3 && move == "steal" && !confirmed
+            if !confirmed
             {
-                lie = false
-                confirmed = true
-            }
-            else
-            {
-                lie = true
+                if card == 3 && move == .Steal && !confirmed
+                {
+                    lie = false
+                    confirmed = true
+                }
+                else
+                {
+                    lie = true
+                }
             }
         }
         
-        let moveData = self.formatData(["message", "move", "lie", "targetPlayer"], values: ["playAction", move, lie, targetPlayer])
+        let action = Action(actionType: move, attackingPlayer: self.playerNumber as NSNumber, defendingPlayer: self.targetPlayer as NSNumber, lie: lie)
+        
+        let moveData = self.formatData(["message", "action"], values: ["playAction", action])
         self.gamesViewController!.sendData(self.match, withData: moveData)
+    }
+    
+    func defendAction(currentAction: Action)
+    {
+        let move = currentAction.actionType
+        
+        if move.defendable()
+        {
+            //Enable block button, and test if you have the cards to block the action
+        }
     }
 }

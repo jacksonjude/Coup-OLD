@@ -12,7 +12,7 @@ import GameKit
 
 class OpponentsViewController: UICollectionViewController
 {
-    @IBOutlet var opponentsView: UICollectionView!
+    var multiplayerViewController: MultiplayerViewController?
     
     override func viewDidLoad()
     {
@@ -37,5 +37,15 @@ class OpponentsViewController: UICollectionViewController
         return cell
     }
     
-    
+    @IBAction func cellDoubleTapped(sender: AnyObject)
+    {
+        let gestureRecognizer = sender as! UITapGestureRecognizer
+        let tappedCell = gestureRecognizer.view as! UICollectionViewCell
+        if self.collectionView!.indexPathsForSelectedItems()![0] == self.collectionView!.indexPathForCell(tappedCell)
+        {
+            print("Play Action Here")
+            
+            self.multiplayerViewController!.playAction()
+        }
+    }
 }

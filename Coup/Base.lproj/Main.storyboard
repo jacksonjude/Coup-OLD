@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G7a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -91,16 +91,16 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qrg-8f-ezG">
-                                <rect key="frame" x="20" y="348" width="62" height="30"/>
-                                <state key="normal" title="Organize"/>
+                                <rect key="frame" x="20" y="368" width="69" height="30"/>
+                                <state key="normal" title="Challenge"/>
                                 <connections>
-                                    <action selector="organizeTapped:" destination="joc-V2-9Wa" eventType="touchUpInside" id="dXu-Vf-UEt"/>
+                                    <action selector="challengeTapped:" destination="joc-V2-9Wa" eventType="touchUpInside" id="5EH-2s-eZa"/>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dKs-ss-sd9">
                                 <rect key="frame" x="51" y="0.0" width="499" height="224"/>
                                 <connections>
-                                    <segue destination="UsC-uS-jCf" kind="embed" id="1A0-MY-Ge9"/>
+                                    <segue destination="UsC-uS-jCf" kind="embed" identifier="openOpponentsView" id="1A0-MY-Ge9"/>
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQc-xm-Nja">
@@ -110,6 +110,20 @@
                                     <segue destination="BcQ-Ax-19M" kind="unwind" unwindAction="exitMultiplayerView:" id="NdA-B4-r88"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yzv-JI-CV2">
+                                <rect key="frame" x="119" y="368" width="38" height="30"/>
+                                <state key="normal" title="Block"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqm-L4-JP4">
+                                <rect key="frame" x="189" y="368" width="49" height="30"/>
+                                <state key="normal" title="Accept"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coinPile" translatesAutoresizingMaskIntoConstraints="NO" id="6IS-kJ-Ylo">
+                                <rect key="frame" x="20" y="236" width="128" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="128" id="TCq-Ci-7uN"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -119,17 +133,25 @@
                             <constraint firstAttribute="bottom" secondItem="dKs-ss-sd9" secondAttribute="bottom" constant="376" id="Dow-yD-IAc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dKs-ss-sd9" secondAttribute="trailing" constant="30" id="HNn-lm-6eI"/>
                             <constraint firstItem="dKs-ss-sd9" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" constant="31" id="J5Y-aL-n6S"/>
+                            <constraint firstItem="Tqm-L4-JP4" firstAttribute="leading" secondItem="Yzv-JI-CV2" secondAttribute="trailing" constant="32" id="LO8-47-gDr"/>
+                            <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Tqm-L4-JP4" secondAttribute="bottom" constant="153" id="Na9-Nx-WYh"/>
                             <constraint firstItem="dKs-ss-sd9" firstAttribute="centerX" secondItem="Pje-6I-kxI" secondAttribute="centerX" id="YQt-zq-b7O"/>
                             <constraint firstItem="qrg-8f-ezG" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" id="bYR-gt-TYK"/>
+                            <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Yzv-JI-CV2" secondAttribute="bottom" constant="153" id="bb3-xZ-Q62"/>
                             <constraint firstItem="dKs-ss-sd9" firstAttribute="top" secondItem="Pje-6I-kxI" secondAttribute="topMargin" id="eOH-fa-DKq"/>
                             <constraint firstItem="gQc-xm-Nja" firstAttribute="leading" secondItem="dKs-ss-sd9" secondAttribute="trailing" constant="8" id="eiY-Et-vp7"/>
+                            <constraint firstItem="Yzv-JI-CV2" firstAttribute="leading" secondItem="qrg-8f-ezG" secondAttribute="trailing" constant="30" id="jOi-bc-mvX"/>
+                            <constraint firstItem="6IS-kJ-Ylo" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" id="pCQ-Hv-ztR"/>
+                            <constraint firstItem="6IS-kJ-Ylo" firstAttribute="top" secondItem="dKs-ss-sd9" secondAttribute="bottom" constant="12" id="qWb-db-X56"/>
                             <constraint firstItem="Q6M-XO-agk" firstAttribute="bottom" secondItem="oqv-MF-Afv" secondAttribute="bottom" id="r6j-Fm-RN6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gQc-xm-Nja" secondAttribute="trailing" constant="-20" id="wVm-L1-0Kb"/>
-                            <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="qrg-8f-ezG" secondAttribute="bottom" constant="173" id="yMs-QV-Hp4"/>
+                            <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="qrg-8f-ezG" secondAttribute="bottom" constant="153" id="yMs-QV-Hp4"/>
+                            <constraint firstItem="6IS-kJ-Ylo" firstAttribute="centerY" secondItem="Pje-6I-kxI" secondAttribute="centerY" id="ybL-uv-P67"/>
                             <constraint firstItem="gQc-xm-Nja" firstAttribute="top" secondItem="glZ-8Z-daS" secondAttribute="bottom" constant="29" id="zWa-K9-i14"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="challengeButton" destination="qrg-8f-ezG" id="9nS-nM-qK1"/>
                         <outlet property="firstCard" destination="Q6M-XO-agk" id="H1H-Gr-6uL"/>
                         <outlet property="opponentsViewControllerContainer" destination="dKs-ss-sd9" id="XTj-nw-xUl"/>
                         <outlet property="secondCard" destination="oqv-MF-Afv" id="ek0-fX-mHq"/>
@@ -162,6 +184,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="wtZ-ld-vkf" appends="YES" id="iBD-fY-cZx"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -169,11 +195,13 @@
                             <outlet property="delegate" destination="UsC-uS-jCf" id="nqm-3x-Pa5"/>
                         </connections>
                     </collectionView>
-                    <connections>
-                        <outlet property="opponentsView" destination="fjd-df-vfd" id="UD2-2Z-KJW"/>
-                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f61-Mf-oWE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="wtZ-ld-vkf">
+                    <connections>
+                        <action selector="cellDoubleTapped:" destination="UsC-uS-jCf" id="HW3-qU-htm"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2152.5" y="-320"/>
         </scene>
@@ -239,6 +267,7 @@
     </scenes>
     <resources>
         <image name="backCard" width="158" height="222"/>
+        <image name="coinPile" width="90" height="90"/>
         <image name="games" width="30" height="30"/>
         <image name="scores" width="30" height="30"/>
     </resources>
