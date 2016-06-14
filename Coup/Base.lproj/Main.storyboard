@@ -151,6 +151,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="acceptActionButton" destination="Tqm-L4-JP4" id="A8e-hZ-dUK"/>
+                        <outlet property="blockButton" destination="Yzv-JI-CV2" id="Nu7-Ua-iSY"/>
                         <outlet property="challengeButton" destination="qrg-8f-ezG" id="9nS-nM-qK1"/>
                         <outlet property="firstCard" destination="Q6M-XO-agk" id="H1H-Gr-6uL"/>
                         <outlet property="opponentsViewControllerContainer" destination="dKs-ss-sd9" id="XTj-nw-xUl"/>

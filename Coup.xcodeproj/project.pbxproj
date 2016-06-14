@@ -37,6 +37,7 @@
 		7ABE9B421D0BCC87005E026D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABE9B411D0BCC87005E026D /* Action.swift */; };
 		7AF5D6EB1CE4162C00833E48 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AF5D6EA1CE4162C00833E48 /* GameKit.framework */; };
 		7AF5D6ED1CE4163400833E48 /* GameplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AF5D6EC1CE4163400833E48 /* GameplayKit.framework */; };
+		7AF8FEB21D0F75740028E89B /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF8FEB11D0F75740028E89B /* Card.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		7ABE9B411D0BCC87005E026D /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Action.swift; path = ../Action.swift; sourceTree = "<group>"; };
 		7AF5D6EA1CE4162C00833E48 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		7AF5D6EC1CE4163400833E48 /* GameplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameplayKit.framework; path = System/Library/Frameworks/GameplayKit.framework; sourceTree = SDKROOT; };
+		7AF8FEB11D0F75740028E89B /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				7A046ECF1CDEEB0600F20493 /* TableViewController.swift */,
 				7A046EE01CE0438800F20493 /* Coin.swift */,
 				7ABE9B411D0BCC87005E026D /* Action.swift */,
+				7AF8FEB11D0F75740028E89B /* Card.swift */,
 				7A046EBF1CDEE65500F20493 /* Main.storyboard */,
 				7A046EC21CDEE65500F20493 /* Assets.xcassets */,
 				7A046EC41CDEE65500F20493 /* LaunchScreen.storyboard */,
@@ -225,6 +228,7 @@
 				7A046EDC1CDEF0A700F20493 /* _Game.swift in Sources */,
 				7A046EDD1CDEF0A700F20493 /* Game.swift in Sources */,
 				7A167D5F1CE6A63D00712F53 /* OpponentsViewController.swift in Sources */,
+				7AF8FEB21D0F75740028E89B /* Card.swift in Sources */,
 				7A046EBA1CDEE65500F20493 /* AppDelegate.swift in Sources */,
 				7A046EBC1CDEE65500F20493 /* GamesViewController.swift in Sources */,
 				7A046ED81CDEF03C00F20493 /* Coup.xcdatamodeld in Sources */,

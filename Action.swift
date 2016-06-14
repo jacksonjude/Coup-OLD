@@ -18,6 +18,8 @@ class Action
         case Assasinate
         case Steal
         case Coup
+        case ForeinAid
+        case Exchange
         
         func defendable() -> Bool
         {
@@ -26,6 +28,10 @@ class Action
                 return true
             case .Steal:
                 return true
+            case .ForeinAid:
+                return true
+            case .Exchange:
+                return false
             case .Coup:
                 return false
             default:

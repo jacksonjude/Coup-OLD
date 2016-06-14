@@ -22,7 +22,7 @@ class MultiplayerViewController: UIViewController
     var playerCount = 0
     var playerNumber = 0
     var recivedTurns = 0
-    var cards: [Int] = []
+    var cards: [Card] = []
     var coins: [Coin] = []
     var playerGoing = 1
     var targetPlayer = 1
@@ -37,6 +37,8 @@ class MultiplayerViewController: UIViewController
     @IBOutlet weak var secondCard: UIImageView!
     @IBOutlet weak var opponentsViewControllerContainer: UIView!
     @IBOutlet weak var challengeButton: UIButton!
+    @IBOutlet weak var blockButton: UIButton!
+    @IBOutlet weak var acceptActionButton: UIButton!
     
     override func viewDidLoad()
     {
@@ -134,7 +136,7 @@ class MultiplayerViewController: UIViewController
                 {
                     if !confirmed
                     {
-                        if card == 1 && move == "assasinate" && !confirmed
+                        if card.cardType == .Assasin && move == "assasinate" && !confirmed
                         {
                             lie = false
                             confirmed = true
@@ -147,7 +149,7 @@ class MultiplayerViewController: UIViewController
                     
                     if !confirmed
                     {
-                        if card == 3 && move == "steal" && !confirmed
+                        if card.cardType == .Captian && move == "steal" && !confirmed
                         {
                             lie = false
                             confirmed = true
@@ -346,7 +348,7 @@ class MultiplayerViewController: UIViewController
             let playerRecivedCards = unarchiver.decodeObjectForKey("player") as! Int
             if playerRecivedCards+1 == self.playerNumber
             {
-                let recivedCards = unarchiver.decodeObjectForKey("cards") as! [Int]
+                let recivedCards = unarchiver.decodeObjectForKey("cards") as! [Card]
                 self.cards = recivedCards
                 
                 self.setCardImages(true, secondCardShouldDraw: true)
@@ -367,11 +369,17 @@ class MultiplayerViewController: UIViewController
         }
         
         let shuffledDeck = GKRandomSource.sharedRandom().arrayByShufflingObjectsInArray(deck) as! [Int]
+        var cardDeck: [Card] = []
+        
+        for integerCard in shuffledDeck
+        {
+            cardDeck.append(Card(type: integerCard))
+        }
         
         var cardNumber = 0
         for currentPlayerNumber in 0..<self.playerCount+1
         {
-            let cards = [shuffledDeck[cardNumber], shuffledDeck[cardNumber+1]]
+            let cards = [cardDeck[cardNumber], cardDeck[cardNumber+1]]
             
             if currentPlayerNumber+1 != self.playerNumber
             {
@@ -403,27 +411,27 @@ class MultiplayerViewController: UIViewController
         for card in self.cards
         {
             var cardType = ""
-            if card == 0
+            if card.cardType == .Duke
             {
                 cardType = "jack"
             }
             
-            if card == 1
+            if card.cardType == .Assasin
             {
                 cardType = "ace"
             }
             
-            if card == 2
+            if card.cardType == .Amassator
             {
                 cardType = "10"
             }
             
-            if card == 3
+            if card.cardType == .Captian
             {
                 cardType = "king"
             }
             
-            if card == 4
+            if card.cardType == .Contessa
             {
                 cardType = "queen"
             }
@@ -554,7 +562,7 @@ class MultiplayerViewController: UIViewController
         {
             if !confirmed
             {
-                if card == 1 && move == .Assasinate && !confirmed
+                if card.cardType == .Assasin && move == .Assasinate && !confirmed
                 {
                     lie = false
                     confirmed = true
@@ -567,7 +575,7 @@ class MultiplayerViewController: UIViewController
             
             if !confirmed
             {
-                if card == 3 && move == .Steal && !confirmed
+                if card.cardType == .Captian && move == .Steal && !confirmed
                 {
                     lie = false
                     confirmed = true
