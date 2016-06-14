@@ -29,7 +29,7 @@ class MultiplayerViewController: UIViewController
     var playerSelected = false
     var selectedMove = ""
     var cardsFlipped: [Bool] = [false, false]
-    var opponentPressTimer = NSDate()
+    var opponentPressTimer = Date()
     var canChallenge = false
     var initilizeProcess = true
     
@@ -50,7 +50,7 @@ class MultiplayerViewController: UIViewController
         
         for coin in self.coins
         {
-            coin.frame = CGRectMake(CGRectGetMinX(self.view.frame)+50, CGRectGetMaxY(self.view.frame)-50, 30, 30)
+            coin.frame = CGRect(x: self.view.frame.minX+50, y: self.view.frame.maxY-50, width: 30, height: 30)
             
             self.view.addSubview(coin)
         }
@@ -59,19 +59,19 @@ class MultiplayerViewController: UIViewController
         
         let background = UIImageView()
         background.image = UIImage(named: "background")
-        background.frame = CGRectMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame), 736, 736)
-        background.center = CGPoint(x: CGRectGetMidX(self.view.frame), y: CGRectGetMidY(self.view.frame))
+        background.frame = CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 736, height: 736)
+        background.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY)
         self.view.addSubview(background)
-        self.view.sendSubviewToBack(background)
+        self.view.sendSubview(toBack: background)
         
-        self.coins[0].frame = CGRectMake(CGRectGetMinX(self.view.frame)+50, CGRectGetMaxY(self.view.frame)-50, 30, 30)
+        self.coins[0].frame = CGRect(x: self.view.frame.minX+50, y: self.view.frame.maxY-50, width: 30, height: 30)
         
-        self.coins[1].frame = CGRectMake(CGRectGetMinX(self.view.frame)+100, CGRectGetMaxY(self.view.frame)-50, 30, 30)
+        self.coins[1].frame = CGRect(x: self.view.frame.minX+100, y: self.view.frame.maxY-50, width: 30, height: 30)
         
-        self.coins[2].frame = CGRectMake(CGRectGetMinX(self.view.frame)+150, CGRectGetMaxY(self.view.frame)-50, 30, 30)
+        self.coins[2].frame = CGRect(x: self.view.frame.minX+150, y: self.view.frame.maxY-50, width: 30, height: 30)
         
-        self.hostNumber = NSNumber(unsignedInt: arc4random())
-        self.hostNumbers.insert(Int(self.hostNumber!), atIndex: self.hostNumbers.count)
+        self.hostNumber = NSNumber(value: arc4random())
+        self.hostNumbers.insert(Int(self.hostNumber!), at: self.hostNumbers.count)
         
         let hostData = self.formatData(["message", "host"], values: ["hostNumber", self.hostNumber!])
         self.gamesViewController!.sendData(self.match, withData: hostData)
@@ -83,19 +83,19 @@ class MultiplayerViewController: UIViewController
         
         if self.canChallenge
         {
-            self.challengeButton.enabled = true
+            self.challengeButton.isEnabled = true
         }
         else
         {
-            self.challengeButton.enabled = false
+            self.challengeButton.isEnabled = false
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         for coin in self.coins
         {
-            if coin.selectable && CGRectContainsPoint(coin.frame, touches.first!.locationInView(self.view))
+            if coin.selectable && coin.frame.contains(touches.first!.location(in: self.view))
             {
                 coin.selected = !coin.selected
                 if coin.selected == false
@@ -136,7 +136,7 @@ class MultiplayerViewController: UIViewController
                 {
                     if !confirmed
                     {
-                        if card.cardType == .Assasin && move == "assasinate" && !confirmed
+                        if card.cardType == .assasin && move == "assasinate" && !confirmed
                         {
                             lie = false
                             confirmed = true
@@ -149,7 +149,7 @@ class MultiplayerViewController: UIViewController
                     
                     if !confirmed
                     {
-                        if card.cardType == .Captian && move == "steal" && !confirmed
+                        if card.cardType == .captian && move == "steal" && !confirmed
                         {
                             lie = false
                             confirmed = true
@@ -197,59 +197,59 @@ class MultiplayerViewController: UIViewController
             }
         }
         
-        if CGRectContainsPoint(self.firstCard.frame, touches.first!.locationInView(self.view))
+        if self.firstCard.frame.contains(touches.first!.location(in: self.view))
         {
             self.flipCard(1)
         }
         
-        if CGRectContainsPoint(self.secondCard.frame, touches.first!.locationInView(self.view))
+        if self.secondCard.frame.contains(touches.first!.location(in: self.view))
         {
             self.flipCard(2)
         }
     }
     
-    func formatData(keys: [String], values: [AnyObject]) -> NSData
+    func formatData(_ keys: [String], values: [AnyObject]) -> Data
     {
         let messageData = NSMutableData()
-        let archiver = NSKeyedArchiver(forWritingWithMutableData: messageData)
+        let archiver = NSKeyedArchiver(forWritingWith: messageData)
         
         for key in keys
         {
-            let pos = keys.indexOf(key)
+            let pos = keys.index(of: key)
             let value = values[pos!]
             
-            archiver.encodeObject(value, forKey: key)
+            archiver.encode(value, forKey: key)
         }
         
         archiver.finishEncoding()
         
-        return messageData
+        return messageData as Data
     }
     
-    func saveDataRecived(data: NSData, fromMatch: GKMatch, fromPlayer: String)
+    func saveDataRecived(_ data: Data, fromMatch: GKMatch, fromPlayer: String)
     {
-        let unarchiver = NSKeyedUnarchiver(forReadingWithData: data)
-        let message = unarchiver.decodeObjectForKey("message") as? NSString
+        let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
+        let message = unarchiver.decodeObject(forKey: "message") as? NSString
         if message == "hostNumber"
         {
-            let recivedHostNumber = unarchiver.decodeObjectForKey("host") as! NSNumber
-            self.hostNumbers.insert(Int(recivedHostNumber), atIndex: self.hostNumbers.count)
+            let recivedHostNumber = unarchiver.decodeObject(forKey: "host") as! NSNumber
+            self.hostNumbers.insert(Int(recivedHostNumber), at: self.hostNumbers.count)
             
             if self.hostNumbers.count == self.playerCount+1
             {
                 if self.hostNumber == nil
                 {
-                    self.hostNumber = NSNumber(unsignedInt: arc4random())
+                    self.hostNumber = NSNumber(value: arc4random())
                 }
                 
-                if Int(self.hostNumber!) == self.hostNumbers.maxElement()
+                if Int(self.hostNumber!) == self.hostNumbers.max()
                 {
                     self.host = true
                 }
                 
                 print("Host: \(self.host)")
                 
-                self.hostNumbers.sortInPlace {
+                self.hostNumbers.sort {
                     return $0 < $1
                 }
                 
@@ -276,8 +276,8 @@ class MultiplayerViewController: UIViewController
         
         if message == "turnOrder"
         {
-            let playerOrder = unarchiver.decodeObjectForKey("playerOrder") as! NSNumber
-            let testHostNumber = unarchiver.decodeObjectForKey("hostNumber") as! NSNumber
+            let playerOrder = unarchiver.decodeObject(forKey: "playerOrder") as! NSNumber
+            let testHostNumber = unarchiver.decodeObject(forKey: "hostNumber") as! NSNumber
             if testHostNumber == self.hostNumber
             {
                 self.playerNumber = Int(playerOrder)
@@ -297,7 +297,7 @@ class MultiplayerViewController: UIViewController
         {
             print("Recived Action...")
             
-            let action = unarchiver.decodeObjectForKey("action") as! Action
+            let action = unarchiver.decodeObject(forKey: "action") as! Action
             
             if action.defendingPlayer == self.playerNumber
             {
@@ -307,17 +307,17 @@ class MultiplayerViewController: UIViewController
                 
                 print("Player \(opposingPlayer) \(move)s You!")
                 
-                if move == .Assasinate
+                if move == .assasinate
                 {
                     print("Choose a card to lose or block this action")
                 }
                 
-                if move == .Steal
+                if move == .steal
                 {
                     print("Block this action or agree")
                 }
                 
-                if move == .Coup
+                if move == .coup
                 {
                     print("Choose a card to lose")
                 }
@@ -345,10 +345,10 @@ class MultiplayerViewController: UIViewController
         
         if message == "cards"
         {
-            let playerRecivedCards = unarchiver.decodeObjectForKey("player") as! Int
+            let playerRecivedCards = unarchiver.decodeObject(forKey: "player") as! Int
             if playerRecivedCards+1 == self.playerNumber
             {
-                let recivedCards = unarchiver.decodeObjectForKey("cards") as! [Card]
+                let recivedCards = unarchiver.decodeObject(forKey: "cards") as! [Card]
                 self.cards = recivedCards
                 
                 self.setCardImages(true, secondCardShouldDraw: true)
@@ -364,11 +364,11 @@ class MultiplayerViewController: UIViewController
         {
             for card in 0..<5
             {
-                deck.insert(card, atIndex: deck.count)
+                deck.insert(card, at: deck.count)
             }
         }
         
-        let shuffledDeck = GKRandomSource.sharedRandom().arrayByShufflingObjectsInArray(deck) as! [Int]
+        let shuffledDeck = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: deck) as! [Int]
         var cardDeck: [Card] = []
         
         for integerCard in shuffledDeck
@@ -404,34 +404,34 @@ class MultiplayerViewController: UIViewController
         self.initilizeProcess = false
     }
     
-    func setCardImages(firstCardShouldDraw: Bool, secondCardShouldDraw: Bool)
+    func setCardImages(_ firstCardShouldDraw: Bool, secondCardShouldDraw: Bool)
     {
         var imageNumber = 0
         
         for card in self.cards
         {
             var cardType = ""
-            if card.cardType == .Duke
+            if card.cardType == .duke
             {
                 cardType = "jack"
             }
             
-            if card.cardType == .Assasin
+            if card.cardType == .assasin
             {
                 cardType = "ace"
             }
             
-            if card.cardType == .Amassator
+            if card.cardType == .amassator
             {
                 cardType = "10"
             }
             
-            if card.cardType == .Captian
+            if card.cardType == .captian
             {
                 cardType = "king"
             }
             
-            if card.cardType == .Contessa
+            if card.cardType == .contessa
             {
                 cardType = "queen"
             }
@@ -468,7 +468,7 @@ class MultiplayerViewController: UIViewController
         }
     }
     
-    func flipCard(cardOrig: Int)
+    func flipCard(_ cardOrig: Int)
     {
         let card = cardOrig - 1
         
@@ -498,7 +498,7 @@ class MultiplayerViewController: UIViewController
         }
     }
     
-    @IBAction func challengeTapped(sender: AnyObject)
+    @IBAction func challengeTapped(_ sender: AnyObject)
     {
         //Challenge Here
     }
@@ -512,13 +512,13 @@ class MultiplayerViewController: UIViewController
         
         for coin in self.coins
         {
-            coin.frame = CGRectMake(CGRectGetMinX(self.view.frame)+xPos[coinNumber], CGRectGetMaxY(self.view.frame)+yPos[coinNumber], 30, 30)
+            coin.frame = CGRect(x: self.view.frame.minX+xPos[coinNumber], y: self.view.frame.maxY+yPos[coinNumber], width: 30, height: 30)
             
             coinNumber += 1
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?)
     {
         if segue.identifier == "openOpponentsView"
         {
@@ -530,7 +530,7 @@ class MultiplayerViewController: UIViewController
     func playAction()
     {
         var coinsSelected = 0
-        var move: Action.ActionType = .None
+        var move: Action.ActionType = .none
         
         for coin in self.coins
         {
@@ -542,17 +542,17 @@ class MultiplayerViewController: UIViewController
         
         if coinsSelected == 3
         {
-            move = .Assasinate
+            move = .assasinate
         }
         
         if coinsSelected == 7
         {
-            move = .Coup
+            move = .coup
         }
         
         if coinsSelected == 0 && self.playerSelected
         {
-            move = .Steal
+            move = .steal
         }
         
         var lie = false
@@ -562,7 +562,7 @@ class MultiplayerViewController: UIViewController
         {
             if !confirmed
             {
-                if card.cardType == .Assasin && move == .Assasinate && !confirmed
+                if card.cardType == .assasin && move == .assasinate && !confirmed
                 {
                     lie = false
                     confirmed = true
@@ -575,7 +575,7 @@ class MultiplayerViewController: UIViewController
             
             if !confirmed
             {
-                if card.cardType == .Captian && move == .Steal && !confirmed
+                if card.cardType == .captian && move == .steal && !confirmed
                 {
                     lie = false
                     confirmed = true
@@ -593,7 +593,7 @@ class MultiplayerViewController: UIViewController
         self.gamesViewController!.sendData(self.match, withData: moveData)
     }
     
-    func defendAction(currentAction: Action)
+    func defendAction(_ currentAction: Action)
     {
         let move = currentAction.actionType
         

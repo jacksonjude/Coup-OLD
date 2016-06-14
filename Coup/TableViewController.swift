@@ -14,23 +14,23 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
 {
     var tableView: UITableView?
     var managedObjectContext = AppDelegate.sharedAppDelegate().managedObjectContext
-    var sortDescriptor: NSSortDescriptor?
+    var sortDescriptor: SortDescriptor?
     var viewControllerName: String?
     
     override func viewDidLoad() {
-        self.tableView!.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: self.viewControllerName! + "Cell")
+        self.tableView!.register(UITableViewCell.classForCoder(), forCellReuseIdentifier: self.viewControllerName! + "Cell")
     }
     
     //MARK: - Setup TableView
     
-    var fetchedResultsController: NSFetchedResultsController {
+    var fetchedResultsController: NSFetchedResultsController<Game> {
         if _fetchedResultsController != nil {
             return _fetchedResultsController!
         }
         
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest: NSFetchRequest<Game> = Game.fetchRequest() as! NSFetchRequest<Game>
         // Edit the entity name as appropriate.
-        let entity = NSEntityDescription.entityForName(self.viewControllerName!, inManagedObjectContext: self.managedObjectContext!)
+        let entity = NSEntityDescription.entity(forEntityName: self.viewControllerName!, in: self.managedObjectContext!)
         fetchRequest.entity = entity
         
         // Set the batch size to a suitable number.
@@ -42,16 +42,14 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
+        let aFetchedResultsController: NSFetchedResultsController<Game> = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         
-        var error: NSError? = nil
         do {
             try _fetchedResultsController!.performFetch()
-        } catch let error1 as NSError {
-            error = error1
-            NSLog("%@", error!)
+        } catch {
+            print("%@", error)
             // Replace this implementation with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             //println("Unresolved error \(error), \(error.userInfo)")
@@ -61,73 +59,71 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         return _fetchedResultsController!
     }
     
-    var _fetchedResultsController: NSFetchedResultsController? = nil
+    var _fetchedResultsController: NSFetchedResultsController<Game>? = nil
     
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.tableView!.beginUpdates()
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
-        case .Insert:
-            self.tableView!.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-        case .Delete:
-            self.tableView!.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+        case .insert:
+            self.tableView!.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .delete:
+            self.tableView!.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
         default:
             return
         }
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: AnyObject, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
-        case .Insert:
-            tableView!.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
-        case .Delete:
-            tableView!.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-        case .Update:
-            self.configureCell(tableView!.cellForRowAtIndexPath(indexPath!)!, atIndexPath: indexPath!)
-        case .Move:
-            tableView!.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-            tableView!.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+        case .insert:
+            tableView!.insertRows(at: [newIndexPath!], with: .fade)
+        case .delete:
+            tableView!.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            self.configureCell(tableView!.cellForRow(at: indexPath!)!, atIndexPath: indexPath!)
+        case .move:
+            tableView!.deleteRows(at: [indexPath!], with: .fade)
+            tableView!.insertRows(at: [newIndexPath!], with: .fade)
         }
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.tableView!.endUpdates()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionInfo = self.fetchedResultsController.sections![section]
         return sectionInfo.numberOfObjects
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("GameCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GameCell", for: indexPath)
         self.configureCell(cell, atIndexPath: indexPath)
         return cell
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
             let context = self.fetchedResultsController.managedObjectContext
-            context.deleteObject(self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject)
+            context.delete(self.fetchedResultsController.object(at: indexPath) as NSManagedObject)
             
-            var error: NSError? = nil
             do {
                 try context.save()
-            } catch let error1 as NSError {
-                error = error1
-                NSLog("%@", error!)
+            } catch {
+                print(error)
                 // Replace this implementation with code to handle the error appropriately.
                 // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 //println("Unresolved error \(error), \(error.userInfo)")
@@ -136,7 +132,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath)
+    func configureCell(_ cell: UITableViewCell, atIndexPath indexPath: IndexPath)
     {
         //Controlled Elsewhere...
     }

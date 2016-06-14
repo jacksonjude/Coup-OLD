@@ -24,7 +24,7 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         // Do any additional setup after loading the view, typically from a nib.
         
         self.viewControllerName = "Game"
-        self.sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        self.sortDescriptor = SortDescriptor(key: "name", ascending: true)
         self.tableView = self.gamesTableView
         
         super.viewDidLoad()
@@ -37,12 +37,12 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         // Dispose of any resources that can be recreated.
     }
 
-    override func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
+    override func configureCell(_ cell: UITableViewCell, atIndexPath indexPath: IndexPath) {
         //Crash for corruption
         
         if self.fetchedResultsController.sections![0].numberOfObjects > 0 && self.fetchedResultsController.fetchedObjects?.count > 0
         {
-            let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Game
+            let object = self.fetchedResultsController.object(at: indexPath) 
             
             cell.textLabel?.font = UIFont(name: "SanFrancisco", size: 1)
             
@@ -54,17 +54,17 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         }
     }
     
-    func insertNewObject(sender: AnyObject, name: String, uuid: String) {
+    func insertNewObject(_ sender: AnyObject, name: String, uuid: String) {
         let context = AppDelegate.sharedAppDelegate().managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
-        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context!) as! Game
+        let newManagedObject = NSEntityDescription.insertNewObject(forEntityName: entity.name!, into: context!) as! Game
         
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
         newManagedObject.name = "Game"
-        newManagedObject.uuid = NSUUID().UUIDString
-        newManagedObject.dateStarted = NSDate().dateByAddingTimeInterval(0)
-        newManagedObject.dateUpdated = NSDate().dateByAddingTimeInterval(0)
+        newManagedObject.uuid = UUID().uuidString
+        newManagedObject.dateStarted = Date().addingTimeInterval(0)
+        newManagedObject.dateUpdated = Date().addingTimeInterval(0)
         
         // Save the context.
         var error: NSError? = nil
@@ -82,12 +82,12 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         self.currentGame = newManagedObject
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath)
     {
-        self.currentGame = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Game
+        self.currentGame = self.fetchedResultsController.object(at: indexPath)
         self.findMatchWithMinPlayers(2, maxPlayers: 2)
         
-        self.performSegueWithIdentifier("enterGame", sender: self)
+        self.performSegue(withIdentifier: "enterGame", sender: self)
     }
     
     func authenticateGameCenter()
@@ -95,14 +95,14 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         let localPlayer = GKLocalPlayer.localPlayer()
         localPlayer.authenticateHandler = {(viewController : UIViewController?, error : NSError?) -> Void in
             if ((viewController) != nil) {
-                self.presentViewController(viewController!, animated: true, completion: nil)
+                self.present(viewController!, animated: true, completion: nil)
             }
             else
             {
-                if GKLocalPlayer.localPlayer().authenticated == true
+                if GKLocalPlayer.localPlayer().isAuthenticated == true
                 {
-                    print((GKLocalPlayer.localPlayer().authenticated))
-                    GKLocalPlayer.localPlayer().registerListener(self)
+                    print((GKLocalPlayer.localPlayer().isAuthenticated))
+                    GKLocalPlayer.localPlayer().register(self)
                     self.gameCenter = true
                 }
                 else
@@ -113,9 +113,9 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         }
     }
     
-    func gameCenterViewControllerDidFinish(gcViewController: GKGameCenterViewController)
+    func gameCenterViewControllerDidFinish(_ gcViewController: GKGameCenterViewController)
     {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func findMatch()
@@ -123,7 +123,7 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         self.findMatchWithMinPlayers(2, maxPlayers: 2)
     }
     
-    func findMatchWithMinPlayers(minPlayers: NSInteger, maxPlayers: NSInteger)
+    func findMatchWithMinPlayers(_ minPlayers: NSInteger, maxPlayers: NSInteger)
     {
         let request = GKMatchRequest()
         request.minPlayers = minPlayers
@@ -132,39 +132,39 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         let viewControllerMatch = GKMatchmakerViewController(matchRequest: request)
         viewControllerMatch!.matchmakerDelegate = self
         
-        self.showViewController(viewControllerMatch!, sender: self)
+        self.show(viewControllerMatch!, sender: self)
         self.navigationController?.pushViewController(viewControllerMatch!, animated: true)
     }
     
-    func matchmakerViewControllerWasCancelled(viewController: GKMatchmakerViewController)
+    func matchmakerViewControllerWasCancelled(_ viewController: GKMatchmakerViewController)
     {
-        viewController.dismissViewControllerAnimated(true, completion: nil)
+        viewController.dismiss(animated: true, completion: nil)
     }
     
-    func matchmakerViewController(viewController: GKMatchmakerViewController, didFailWithError error: NSError)
+    func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFailWithError error: NSError)
     {
-        viewController.dismissViewControllerAnimated(true, completion: nil)
+        viewController.dismiss(animated: true, completion: nil)
         print("Matching failed with error: \(error)")
     }
     
-    func matchmakerViewController(viewController: GKMatchmakerViewController, didReceiveAcceptFromHostedPlayer playerID: String)
+    func matchmakerViewController(_ viewController: GKMatchmakerViewController, didReceiveAcceptFromHostedPlayer playerID: String)
     {
         print("Game Accepted from player \(playerID)")
-        self.performSegueWithIdentifier("enterGame", sender: self)
+        self.performSegue(withIdentifier: "enterGame", sender: self)
     }
     
-    func matchmakerViewController(viewController: GKMatchmakerViewController, didFindPlayers playerIDs: [String])
+    func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFindPlayers playerIDs: [String])
     {
         print("Found Players With Name: \(playerIDs[0])")
-        self.performSegueWithIdentifier("enterGame", sender: self)
+        self.performSegue(withIdentifier: "enterGame", sender: self)
     }
     
-    func player(player: GKPlayer, didAcceptInvite invite: GKInvite)
+    func player(_ player: GKPlayer, didAccept invite: GKInvite)
     {
-        self.performSegueWithIdentifier("enterGame", sender: self)
+        self.performSegue(withIdentifier: "enterGame", sender: self)
     }
     
-    func matchmakerViewController(viewController: GKMatchmakerViewController, didFindMatch match: GKMatch)
+    func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFind match: GKMatch)
     {
         if (!self.matchStarted && match.expectedPlayerCount == 0) {
             NSLog("Ready to start match!")
@@ -173,19 +173,19 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
             self.currentMatch = match
             match.delegate = self
             
-            viewController.dismissViewControllerAnimated(true, completion: {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.performSegueWithIdentifier("enterGame", sender: self)
+            viewController.dismiss(animated: true, completion: {
+                DispatchQueue.main.async(execute: {
+                    self.performSegue(withIdentifier: "enterGame", sender: self)
                 })
             })
         }
     }
     
-    func match(match: GKMatch, player playerID: String, didChangeState state: GKPlayerConnectionState)
+    func match(_ match: GKMatch, player playerID: String, didChange state: GKPlayerConnectionState)
     {
         switch (state)
         {
-        case .StateConnected:
+        case .stateConnected:
             // handle a new player connection.
             NSLog("Player connected!")
             
@@ -197,7 +197,7 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
             }
             
             break
-        case .StateDisconnected:
+        case .stateDisconnected:
             // a player just disconnected.
             NSLog("Player disconnected!")
             self.matchStarted = false
@@ -207,48 +207,48 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         }
     }
     
-    func match(match: GKMatch, shouldReinviteDisconnectedPlayer player: GKPlayer) -> Bool
+    func match(_ match: GKMatch, shouldReinviteDisconnectedPlayer player: GKPlayer) -> Bool
     {
         return true
     }
     
-    func match(matchCurrent: GKMatch, didReceiveData data: NSData, fromRemotePlayer player: GKPlayer)
+    func match(_ matchCurrent: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer)
     {
         self.multiplayerSceneRef!.saveDataRecived(data, fromMatch: matchCurrent, fromPlayer: player.playerID!)
     }
     
-    func match(matchCurrent: GKMatch, didReceiveData data: NSData, fromPlayer playerID: String)
+    func match(_ matchCurrent: GKMatch, didReceive data: Data, fromPlayer playerID: String)
     {
         self.multiplayerSceneRef!.saveDataRecived(data, fromMatch: matchCurrent, fromPlayer: playerID)
     }
     
-    func sendData(matchCurrent: GKMatch!, withData data: NSData!)
+    func sendData(_ matchCurrent: GKMatch!, withData data: Data!)
     {
         do {
-            try matchCurrent.sendDataToAllPlayers(data, withDataMode: GKMatchSendDataMode.Unreliable)
+            try matchCurrent.sendData(toAllPlayers: data, with: GKMatchSendDataMode.unreliable)
         } catch _ {
         }
     }
     
-    func match(match: GKMatch, didFailWithError error: NSError?)
+    func match(_ match: GKMatch, didFailWithError error: NSError?)
     {
         
     }
     
-    func player(player: GKPlayer, didRequestMatchWithPlayers playerIDsToInvite: [String]) {
+    func player(_ player: GKPlayer, didRequestMatchWithPlayers playerIDsToInvite: [String]) {
         
     }
     
-    @IBAction func addNewMatch(sender: AnyObject)
+    @IBAction func addNewMatch(_ sender: AnyObject)
     {
-        self.insertNewObject(self, name: "Game", uuid: NSUUID().UUIDString)
+        self.insertNewObject(self, name: "Game", uuid: UUID().uuidString)
         
         self.findMatchWithMinPlayers(2, maxPlayers: 2)
         
-        self.performSegueWithIdentifier("enterGame", sender: self)
+        self.performSegue(withIdentifier: "enterGame", sender: self)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?)
     {
         let controller = segue.destinationViewController as! MultiplayerViewController
         controller.game = self.currentGame
@@ -258,11 +258,11 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
         self.multiplayerSceneRef = controller
         
         if let indexPath = self.tableView!.indexPathForSelectedRow {
-            self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
+            self.tableView!.deselectRow(at: indexPath, animated: true)
         }
     }
     
-    @IBAction func exitMultiplayerView(segue: UIStoryboardSegue)
+    @IBAction func exitMultiplayerView(_ segue: UIStoryboardSegue)
     {
         NSLog("Exiting Multiplayer View")
         

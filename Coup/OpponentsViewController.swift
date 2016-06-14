@@ -19,29 +19,29 @@ class OpponentsViewController: UICollectionViewController
         super.viewDidLoad()
     }
     
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int
+    override func numberOfSections(in collectionView: UICollectionView) -> Int
     {
         return 2
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return 2
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("OpponentCell", forIndexPath: indexPath)
-        cell.backgroundColor = UIColor.blackColor()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OpponentCell", for: indexPath)
+        cell.backgroundColor = UIColor.black()
         
         return cell
     }
     
-    @IBAction func cellDoubleTapped(sender: AnyObject)
+    @IBAction func cellDoubleTapped(_ sender: AnyObject)
     {
         let gestureRecognizer = sender as! UITapGestureRecognizer
         let tappedCell = gestureRecognizer.view as! UICollectionViewCell
-        if self.collectionView!.indexPathsForSelectedItems()![0] == self.collectionView!.indexPathForCell(tappedCell)
+        if self.collectionView!.indexPathsForSelectedItems()![0] == self.collectionView!.indexPath(for: tappedCell)
         {
             print("Play Action Here")
             

@@ -12,15 +12,15 @@ class Card
 {
     enum CardType: NSNumber
     {
-        case None
-        case Duke
-        case Assasin
-        case Amassator
-        case Captian
-        case Contessa
+        case none
+        case duke
+        case assasin
+        case amassator
+        case captian
+        case contessa
     }
     
-    var cardType = CardType.None
+    var cardType = CardType.none
     
     init(type: NSNumber)
     {
@@ -32,22 +32,22 @@ class Card
         self.cardType = type
     }
     
-    func canDefend(action: Action.ActionType) -> Bool
+    func canDefend(_ action: Action.ActionType) -> Bool
     {
         var defendableActions: [Action.ActionType] = []
         switch self.cardType
         {
-        case .Duke:
-            defendableActions.append(.ForeinAid)
-        case .Assasin:
+        case .duke:
+            defendableActions.append(.foreinAid)
+        case .assasin:
             break
-        case .Amassator:
-            defendableActions.append(.Steal)
-        case .Captian:
-            defendableActions.append(.Steal)
-        case .Contessa:
-            defendableActions.append(.Assasinate)
-        case .None:
+        case .amassator:
+            defendableActions.append(.steal)
+        case .captian:
+            defendableActions.append(.steal)
+        case .contessa:
+            defendableActions.append(.assasinate)
+        case .none:
             break
         }
         

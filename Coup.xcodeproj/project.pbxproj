@@ -34,7 +34,7 @@
 		7A046EDF1CDEFF8800F20493 /* MultiplayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046EDE1CDEFF8800F20493 /* MultiplayerViewController.swift */; };
 		7A046EE11CE0438800F20493 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046EE01CE0438800F20493 /* Coin.swift */; };
 		7A167D5F1CE6A63D00712F53 /* OpponentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A167D5E1CE6A63D00712F53 /* OpponentsViewController.swift */; };
-		7ABE9B421D0BCC87005E026D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABE9B411D0BCC87005E026D /* Action.swift */; };
+		7A743F401D0FDE16001BCB62 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A743F3F1D0FDE16001BCB62 /* Action.swift */; };
 		7AF5D6EB1CE4162C00833E48 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AF5D6EA1CE4162C00833E48 /* GameKit.framework */; };
 		7AF5D6ED1CE4163400833E48 /* GameplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AF5D6EC1CE4163400833E48 /* GameplayKit.framework */; };
 		7AF8FEB21D0F75740028E89B /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF8FEB11D0F75740028E89B /* Card.swift */; };
@@ -56,7 +56,7 @@
 		7A046EDE1CDEFF8800F20493 /* MultiplayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerViewController.swift; sourceTree = "<group>"; };
 		7A046EE01CE0438800F20493 /* Coin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		7A167D5E1CE6A63D00712F53 /* OpponentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentsViewController.swift; sourceTree = "<group>"; };
-		7ABE9B411D0BCC87005E026D /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Action.swift; path = ../Action.swift; sourceTree = "<group>"; };
+		7A743F3F1D0FDE16001BCB62 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		7AF5D6EA1CE4162C00833E48 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		7AF5D6EC1CE4163400833E48 /* GameplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameplayKit.framework; path = System/Library/Frameworks/GameplayKit.framework; sourceTree = SDKROOT; };
 		7AF8FEB11D0F75740028E89B /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
@@ -103,8 +103,8 @@
 				7A046EDE1CDEFF8800F20493 /* MultiplayerViewController.swift */,
 				7A167D5E1CE6A63D00712F53 /* OpponentsViewController.swift */,
 				7A046ECF1CDEEB0600F20493 /* TableViewController.swift */,
+				7A743F3F1D0FDE16001BCB62 /* Action.swift */,
 				7A046EE01CE0438800F20493 /* Coin.swift */,
-				7ABE9B411D0BCC87005E026D /* Action.swift */,
 				7AF8FEB11D0F75740028E89B /* Card.swift */,
 				7A046EBF1CDEE65500F20493 /* Main.storyboard */,
 				7A046EC21CDEE65500F20493 /* Assets.xcassets */,
@@ -151,12 +151,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = jackson;
 				TargetAttributes = {
 					7A046EB51CDEE65500F20493 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 26Y8AQV29F;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -222,7 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A046EE11CE0438800F20493 /* Coin.swift in Sources */,
-				7ABE9B421D0BCC87005E026D /* Action.swift in Sources */,
+				7A743F401D0FDE16001BCB62 /* Action.swift in Sources */,
 				7A046EBE1CDEE65500F20493 /* SecondViewController.swift in Sources */,
 				7A046EDF1CDEFF8800F20493 /* MultiplayerViewController.swift in Sources */,
 				7A046EDC1CDEF0A700F20493 /* _Game.swift in Sources */,
@@ -295,7 +296,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -334,7 +335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -350,6 +351,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jacksonjude.Coup;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -362,6 +364,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jacksonjude.Coup;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
