@@ -8,9 +8,9 @@
 
 import Foundation
 
-class Card
+class Card: NSObject, NSCoding
 {
-    enum CardType: NSNumber
+    enum CardType: Int
     {
         case none
         case duke
@@ -24,7 +24,7 @@ class Card
     
     init(type: NSNumber)
     {
-        self.cardType = CardType(rawValue: type)!
+        self.cardType = CardType(rawValue: Int(type))!
     }
     
     init(type: CardType)
@@ -38,7 +38,7 @@ class Card
         switch self.cardType
         {
         case .duke:
-            defendableActions.append(.foreinAid)
+            defendableActions.append(.foreignAid)
         case .assasin:
             break
         case .amassator:
@@ -60,5 +60,13 @@ class Card
         }
         
         return false
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(cardType.rawValue, forKey: "cardType")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.cardType = CardType(rawValue: aDecoder.decodeInteger(forKey: "cardType"))!
     }
 }

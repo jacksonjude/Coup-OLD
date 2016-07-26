@@ -203,7 +203,7 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
             self.matchStarted = false
             break
         default:
-            _ = "BLAHBLAHBLAH"
+            break
         }
     }
     
@@ -265,9 +265,6 @@ class GamesViewController: TableViewController, GKGameCenterControllerDelegate, 
     @IBAction func exitMultiplayerView(_ segue: UIStoryboardSegue)
     {
         NSLog("Exiting Multiplayer View")
-        
-        /*let multiplayerViewController = segue.sourceViewController as! MultiplayerViewController
-        let game = multiplayerViewController.game*/
     }
 }
 

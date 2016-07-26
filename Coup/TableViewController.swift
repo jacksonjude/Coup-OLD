@@ -28,21 +28,27 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
             return _fetchedResultsController!
         }
         
-        let fetchRequest: NSFetchRequest<Game> = Game.fetchRequest() as! NSFetchRequest<Game>
+        let fetchRequest: NSFetchRequest<Game>?
+        
+        if #available(iOS 10.0, *) {
+            fetchRequest = Game.fetchRequest() as? NSFetchRequest<Game>
+        } else {
+            fetchRequest = NSFetchRequest(entityName: "Game")
+        }
         // Edit the entity name as appropriate.
         let entity = NSEntityDescription.entity(forEntityName: self.viewControllerName!, in: self.managedObjectContext!)
-        fetchRequest.entity = entity
+        fetchRequest?.entity = entity
         
         // Set the batch size to a suitable number.
-        fetchRequest.fetchBatchSize = 20
+        fetchRequest?.fetchBatchSize = 20
         
         // Edit the sort key as appropriate.
         
-        fetchRequest.sortDescriptors = [self.sortDescriptor!]
+        fetchRequest?.sortDescriptors = [self.sortDescriptor!]
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
-        let aFetchedResultsController: NSFetchedResultsController<Game> = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
+        let aFetchedResultsController: NSFetchedResultsController<Game> = NSFetchedResultsController(fetchRequest: fetchRequest!, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         

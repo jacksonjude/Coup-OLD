@@ -360,9 +360,9 @@ class MultiplayerViewController: UIViewController
     {
         var deck: [Int] = []
         
-        for _ in 0..<5
+        for _ in 1..<4
         {
-            for card in 0..<5
+            for card in 1..<4
             {
                 deck.insert(card, at: deck.count)
             }
@@ -524,6 +524,7 @@ class MultiplayerViewController: UIViewController
         {
             let opponentsView = segue.destinationViewController as! OpponentsViewController
             opponentsView.multiplayerViewController = self
+            opponentsView.numberOfPlayers = self.playerCount
         }
     }
     
@@ -599,7 +600,18 @@ class MultiplayerViewController: UIViewController
         
         if move.defendable()
         {
-            //Enable block button, and test if you have the cards to block the action
+            self.blockButton.isEnabled = true
+            for card in self.cards
+            {
+                if card.canDefend(move)
+                {
+                    self.blockButton.setTitleColor(UIColor.green(), for: [])
+                }
+                else
+                {
+                    self.blockButton.setTitleColor(UIColor.red(), for: [])
+                }
+            }
         }
     }
 }
