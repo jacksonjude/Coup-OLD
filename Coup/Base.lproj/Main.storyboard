@@ -95,12 +95,6 @@
                                     <segue destination="UsC-uS-jCf" kind="embed" identifier="openOpponentsView" id="1A0-MY-Ge9"/>
                                 </connections>
                             </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQc-xm-Nja">
-                                <state key="normal" title="Exit"/>
-                                <connections>
-                                    <segue destination="BcQ-Ax-19M" kind="unwind" unwindAction="exitMultiplayerView:" id="NdA-B4-r88"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqm-L4-JP4">
                                 <state key="normal" title="Accept"/>
                             </button>
@@ -124,40 +118,58 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yzv-JI-CV2">
                                 <state key="normal" title="Block"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQc-xm-Nja">
+                                <state key="normal" title="Exit"/>
+                                <connections>
+                                    <segue destination="BcQ-Ax-19M" kind="unwind" unwindAction="exitMultiplayerView:" id="NdA-B4-r88"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTd-ei-W6a">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Yzv-JI-CV2" firstAttribute="top" secondItem="eTd-ei-W6a" secondAttribute="bottom" constant="8" id="0D2-jp-Jhj"/>
                             <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Yzv-JI-CV2" secondAttribute="bottom" constant="99" id="7Cf-Hx-5Gg"/>
                             <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Q6M-XO-agk" secondAttribute="bottom" constant="202" id="9oT-E4-Lkp"/>
                             <constraint firstItem="Q6M-XO-agk" firstAttribute="leading" secondItem="oqv-MF-Afv" secondAttribute="trailing" constant="8" symbolic="YES" id="9sk-I8-vMl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Q6M-XO-agk" secondAttribute="trailing" constant="33" id="Bvl-Lt-aQV"/>
+                            <constraint firstItem="eTd-ei-W6a" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" id="J1s-Tx-l3a"/>
                             <constraint firstItem="6IS-kJ-Ylo" firstAttribute="top" secondItem="dKs-ss-sd9" secondAttribute="bottom" constant="25" id="M1f-VN-Sze"/>
                             <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="Tqm-L4-JP4" secondAttribute="bottom" constant="99" id="Na9-Nx-WYh"/>
                             <constraint firstItem="dKs-ss-sd9" firstAttribute="centerX" secondItem="Pje-6I-kxI" secondAttribute="centerX" id="YQt-zq-b7O"/>
                             <constraint firstItem="6IS-kJ-Ylo" firstAttribute="leading" secondItem="qrg-8f-ezG" secondAttribute="leading" id="b7M-Bn-0aS"/>
                             <constraint firstItem="qrg-8f-ezG" firstAttribute="leading" secondItem="Pje-6I-kxI" secondAttribute="leadingMargin" id="bYR-gt-TYK"/>
                             <constraint firstItem="dKs-ss-sd9" firstAttribute="top" secondItem="Pje-6I-kxI" secondAttribute="topMargin" id="eOH-fa-DKq"/>
-                            <constraint firstItem="gQc-xm-Nja" firstAttribute="leading" secondItem="dKs-ss-sd9" secondAttribute="trailing" constant="8" id="eiY-Et-vp7"/>
                             <constraint firstItem="Yzv-JI-CV2" firstAttribute="leading" secondItem="qrg-8f-ezG" secondAttribute="trailing" constant="8" id="jOi-bc-mvX"/>
+                            <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="gQc-xm-Nja" secondAttribute="bottom" constant="8" id="lrk-ZA-Zyk"/>
                             <constraint firstItem="Q6M-XO-agk" firstAttribute="bottom" secondItem="oqv-MF-Afv" secondAttribute="bottom" id="r6j-Fm-RN6"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="gQc-xm-Nja" secondAttribute="trailing" constant="-20" id="wVm-L1-0Kb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gQc-xm-Nja" secondAttribute="trailing" constant="-16" id="wVm-L1-0Kb"/>
                             <constraint firstItem="Tqm-L4-JP4" firstAttribute="leading" secondItem="Yzv-JI-CV2" secondAttribute="trailing" constant="8" id="yGF-qA-Pb3"/>
                             <constraint firstItem="PU8-KZ-46n" firstAttribute="top" secondItem="qrg-8f-ezG" secondAttribute="bottom" constant="99" id="yMs-QV-Hp4"/>
-                            <constraint firstItem="gQc-xm-Nja" firstAttribute="top" secondItem="glZ-8Z-daS" secondAttribute="bottom" constant="29" id="zWa-K9-i14"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="acceptActionButton" destination="Tqm-L4-JP4" id="A8e-hZ-dUK"/>
                         <outlet property="blockButton" destination="Yzv-JI-CV2" id="Nu7-Ua-iSY"/>
                         <outlet property="challengeButton" destination="qrg-8f-ezG" id="9nS-nM-qK1"/>
+                        <outlet property="coinPile" destination="6IS-kJ-Ylo" id="u7d-Vx-RNk"/>
                         <outlet property="firstCard" destination="Q6M-XO-agk" id="H1H-Gr-6uL"/>
+                        <outlet property="gameStatusLabel" destination="eTd-ei-W6a" id="RIW-jL-T6b"/>
                         <outlet property="opponentsViewControllerContainer" destination="dKs-ss-sd9" id="XTj-nw-xUl"/>
                         <outlet property="secondCard" destination="oqv-MF-Afv" id="ek0-fX-mHq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a1Q-oh-PqN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="BcQ-Ax-19M" userLabel="Exit" sceneMemberID="exit"/>
-                <tapGestureRecognizer id="g1n-bq-9xa" userLabel="Coin Pile TGR"/>
+                <tapGestureRecognizer id="g1n-bq-9xa" userLabel="Coin Pile TGR">
+                    <connections>
+                        <action selector="coinPileTapped:" destination="joc-V2-9Wa" id="HgT-bA-chc"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1475.625" y="-321.12676056338029"/>
         </scene>
@@ -182,27 +194,40 @@
                                     <rect key="frame" x="0.0" y="0.0" width="312" height="213"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="500" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wyi-hB-ggz"/>
+                                        <imageView userInteractionEnabled="NO" tag="500" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wyi-hB-ggz">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="190" id="758-vo-kcs"/>
+                                                <constraint firstAttribute="width" constant="190" id="g5f-Aa-JAv"/>
+                                            </constraints>
+                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cards" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i9-uC-smW">
                                             <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coins" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Nw-nn-vPD">
+                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5l-sm-RqU">
                                             <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                 </view>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="Wyi-hB-ggz" firstAttribute="top" secondItem="c31-vo-9ss" secondAttribute="topMargin" id="1HO-YW-N6J"/>
+                                    <constraint firstItem="Wyi-hB-ggz" firstAttribute="top" secondItem="c31-vo-9ss" secondAttribute="topMargin" constant="15" id="1HO-YW-N6J"/>
                                     <constraint firstItem="7Nw-nn-vPD" firstAttribute="leading" secondItem="c31-vo-9ss" secondAttribute="leadingMargin" id="6hV-Ka-M7i"/>
+                                    <constraint firstItem="W5l-sm-RqU" firstAttribute="top" secondItem="c31-vo-9ss" secondAttribute="top" id="A87-yn-yUG"/>
                                     <constraint firstItem="6i9-uC-smW" firstAttribute="leading" secondItem="c31-vo-9ss" secondAttribute="leadingMargin" id="LGi-rJ-IZD"/>
+                                    <constraint firstItem="W5l-sm-RqU" firstAttribute="centerX" secondItem="c31-vo-9ss" secondAttribute="centerX" id="PM8-Da-xoA"/>
                                     <constraint firstItem="6i9-uC-smW" firstAttribute="top" secondItem="c31-vo-9ss" secondAttribute="topMargin" constant="30" id="SqP-4X-JXn"/>
                                     <constraint firstItem="7Nw-nn-vPD" firstAttribute="top" secondItem="6i9-uC-smW" secondAttribute="bottom" constant="4" id="l2w-7a-GOJ"/>
-                                    <constraint firstItem="Wyi-hB-ggz" firstAttribute="leading" secondItem="c31-vo-9ss" secondAttribute="leading" id="mJa-Qm-EHg"/>
+                                    <constraint firstItem="Wyi-hB-ggz" firstAttribute="leading" secondItem="c31-vo-9ss" secondAttribute="leading" constant="122" id="mJa-Qm-EHg"/>
                                     <constraint firstAttribute="trailing" secondItem="Wyi-hB-ggz" secondAttribute="trailing" id="wwB-Rl-6pD"/>
                                     <constraint firstAttribute="bottom" secondItem="Wyi-hB-ggz" secondAttribute="bottom" id="y0R-AE-tWv"/>
                                 </constraints>
@@ -224,7 +249,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2152.5" y="-320.07042253521126"/>
+            <point key="canvasLocation" x="2152" y="-320.23988005997006"/>
         </scene>
         <!--Scores-->
         <scene sceneID="wg7-f3-ORb">

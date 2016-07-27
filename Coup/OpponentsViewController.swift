@@ -20,6 +20,8 @@ class OpponentsViewController: UICollectionViewController
     {
         super.viewDidLoad()
         
+        self.numberOfPlayers = self.multiplayerViewController?.match?.players.count.hashValue
+        
         if self.multiplayerViewController?.playerNumber == 1
         {
             self.selectedPlayer = 2
@@ -33,6 +35,7 @@ class OpponentsViewController: UICollectionViewController
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
+        print("Number of players: \(self.numberOfPlayers)")
         return self.numberOfPlayers!
     }
     
@@ -48,7 +51,9 @@ class OpponentsViewController: UICollectionViewController
         let playerImageView = cell.contentView.viewWithTag(500) as! UIImageView
         let coinCount = cell.contentView.viewWithTag(501) as! UILabel
         let cardCount = cell.contentView.viewWithTag(502) as! UILabel
-        self.multiplayerViewController?.gamesViewController?.currentMatch?.players[indexPath.hashValue].loadPhoto(forSize: 1, withCompletionHandler: { (photo: UIImage?, error: NSError?) -> Void in
+        let playerName = cell.contentView.viewWithTag(503) as! UILabel
+        
+        self.multiplayerViewController?.match?.players[indexPath.endIndex-2].loadPhoto(forSize: 1, withCompletionHandler: { (photo: UIImage?, error: NSError?) -> Void in
                 if error == nil
                 {
                     playerImageView.image = photo!
@@ -56,11 +61,15 @@ class OpponentsViewController: UICollectionViewController
                 else
                 {
                     print("Error: \(error)")
+                    
+                    print("Using generic photo")
+                    playerImageView.image = #imageLiteral(resourceName: "genericAvatar")
                 }
         })
         
-        coinCount.text = "3"
-        cardCount.text = "2"
+        coinCount.text = "2 Coins"
+        cardCount.text = "2 Cards"
+        playerName.text = self.multiplayerViewController?.match?.players[indexPath.endIndex-2].alias
     }
     
     @IBAction func cellDoubleTapped(_ sender: AnyObject)

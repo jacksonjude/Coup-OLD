@@ -32,6 +32,7 @@ class MultiplayerViewController: UIViewController
     var opponentPressTimer = Date()
     var canChallenge = false
     var initilizeProcess = true
+    var coinPileState = 0
     
     @IBOutlet weak var firstCard: UIImageView!
     @IBOutlet weak var secondCard: UIImageView!
@@ -39,6 +40,8 @@ class MultiplayerViewController: UIViewController
     @IBOutlet weak var challengeButton: UIButton!
     @IBOutlet weak var blockButton: UIButton!
     @IBOutlet weak var acceptActionButton: UIButton!
+    @IBOutlet weak var coinPile: UIImageView!
+    @IBOutlet weak var gameStatusLabel: UILabel!
     
     override func viewDidLoad()
     {
@@ -64,11 +67,7 @@ class MultiplayerViewController: UIViewController
         self.view.addSubview(background)
         self.view.sendSubview(toBack: background)
         
-        self.coins[0].frame = CGRect(x: self.view.frame.minX+50, y: self.view.frame.maxY-50, width: 30, height: 30)
-        
-        self.coins[1].frame = CGRect(x: self.view.frame.minX+100, y: self.view.frame.maxY-50, width: 30, height: 30)
-        
-        self.coins[2].frame = CGRect(x: self.view.frame.minX+150, y: self.view.frame.maxY-50, width: 30, height: 30)
+        self.organizeCoins()
         
         self.hostNumber = NSNumber(value: arc4random())
         self.hostNumbers.insert(Int(self.hostNumber!), at: self.hostNumbers.count)
@@ -206,6 +205,45 @@ class MultiplayerViewController: UIViewController
         {
             self.flipCard(2)
         }
+        
+        if self.coinPile.frame.contains(touches.first!.location(in: self.view))
+        {
+            self.coinPileState += 1
+            if coinPileState == 4
+            {
+                self.coinPileState = 0
+            }
+            
+            switch coinPileState
+            {
+                case 0:
+                    self.coinPile.image = #imageLiteral(resourceName: "coinPile")
+                case 1:
+                    self.coinPile.image = #imageLiteral(resourceName: "coinPileIncome")
+                case 2:
+                    self.coinPile.image = #imageLiteral(resourceName: "coinPileFA")
+                case 3:
+                    var lie = true
+                    for card in self.cards
+                    {
+                        if card.cardType == .duke
+                        {
+                            lie = false
+                        }
+                    }
+                    
+                    if lie
+                    {
+                        self.coinPile.image = #imageLiteral(resourceName: "coinPileTutLie")
+                    }
+                    else
+                    {
+                        self.coinPile.image = #imageLiteral(resourceName: "coinPileTut")
+                    }
+                default:
+                    break
+            }
+        }
     }
     
     func formatData(_ keys: [String], values: [AnyObject]) -> Data
@@ -248,6 +286,7 @@ class MultiplayerViewController: UIViewController
                 }
                 
                 print("Host: \(self.host)")
+                print("Host Numbers: \(self.hostNumbers)")
                 
                 self.hostNumbers.sort {
                     return $0 < $1
@@ -299,31 +338,10 @@ class MultiplayerViewController: UIViewController
             
             let action = unarchiver.decodeObject(forKey: "action") as! Action
             
+            self.updateStatus(action: action)
+            
             if action.defendingPlayer == self.playerNumber
             {
-                let lie = action.lie
-                let move: Action.ActionType = action.actionType
-                let opposingPlayer = action.attackingPlayer
-                
-                print("Player \(opposingPlayer) \(move)s You!")
-                
-                if move == .assasinate
-                {
-                    print("Choose a card to lose or block this action")
-                }
-                
-                if move == .steal
-                {
-                    print("Block this action or agree")
-                }
-                
-                if move == .coup
-                {
-                    print("Choose a card to lose")
-                }
-                
-                print("This is a lie: \(lie)")
-                
                 self.defendAction(action)
             }
         }
@@ -360,9 +378,9 @@ class MultiplayerViewController: UIViewController
     {
         var deck: [Int] = []
         
-        for _ in 1..<4
+        for _ in 1..<5
         {
-            for card in 1..<4
+            for card in 1..<6
             {
                 deck.insert(card, at: deck.count)
             }
@@ -524,7 +542,6 @@ class MultiplayerViewController: UIViewController
         {
             let opponentsView = segue.destinationViewController as! OpponentsViewController
             opponentsView.multiplayerViewController = self
-            opponentsView.numberOfPlayers = self.playerCount
         }
     }
     
@@ -592,6 +609,83 @@ class MultiplayerViewController: UIViewController
         
         let moveData = self.formatData(["message", "action"], values: ["playAction", action])
         self.gamesViewController!.sendData(self.match, withData: moveData)
+        
+        self.updateStatus(action: action)
+    }
+    
+    func updateStatus(action: Action)
+    {
+        let lie = action.lie
+        let move: Action.ActionType = action.actionType
+        let opposingPlayer = action.attackingPlayer
+        
+        var attackingPlayerAlias = ""
+        var defendingPlayerAlias = ""
+        
+        if opposingPlayer != self.playerNumber
+        {
+            if Int(action.attackingPlayer) > self.playerNumber
+            {
+                attackingPlayerAlias = self.match!.players[Int(opposingPlayer)-2].alias!
+            }
+            else
+            {
+                attackingPlayerAlias = self.match!.players[Int(opposingPlayer)-1].alias!
+            }
+        }
+        else
+        {
+            attackingPlayerAlias = GKLocalPlayer.localPlayer().alias!
+        }
+        
+        if action.defendingPlayer != self.playerNumber
+        {
+            if Int(action.defendingPlayer) > self.playerNumber
+            {
+                defendingPlayerAlias = self.match!.players[Int(action.defendingPlayer)-2].alias!
+            }
+            else
+            {
+                defendingPlayerAlias = self.match!.players[Int(action.defendingPlayer)-1].alias!
+            }
+        }
+        else
+        {
+            defendingPlayerAlias = GKLocalPlayer.localPlayer().alias!
+        }
+        
+        if action.defendingPlayer == self.playerNumber
+        {
+            self.gameStatusLabel.text = "\(attackingPlayerAlias) \(action.actionType.rawValue)s You!"
+        }
+        else
+        {
+            if opposingPlayer == self.playerNumber
+            {
+                self.gameStatusLabel.text = "You \(action.actionType.rawValue) \(defendingPlayerAlias)!"
+            }
+            else
+            {
+                self.gameStatusLabel.text = "\(attackingPlayerAlias) \(action.actionType.rawValue)s \(defendingPlayerAlias)!"
+            }
+        }
+        
+        if move == .assasinate
+        {
+            print("Choose a card to lose or block this action")
+        }
+        
+        if move == .steal
+        {
+            print("Block this action or agree")
+        }
+        
+        if move == .coup
+        {
+            print("Choose a card to lose")
+        }
+        
+        print("This is a lie: \(lie)")
     }
     
     func defendAction(_ currentAction: Action)

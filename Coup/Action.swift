@@ -10,9 +10,9 @@ import Foundation
 import GameKit
 import CoreData
 
-class Action
+class Action: NSObject, NSCoding
 {
-    enum ActionType
+    enum ActionType: String
     {
         case none
         case assasinate
@@ -51,5 +51,19 @@ class Action
         self.attackingPlayer = attackingPlayer
         self.defendingPlayer = defendingPlayer
         self.lie = lie
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.actionType.rawValue, forKey: "actionType")
+        aCoder.encode(Int(self.attackingPlayer), forKey: "attackingPlayer")
+        aCoder.encode(Int(self.defendingPlayer), forKey: "defendingPlayer")
+        aCoder.encode(self.lie, forKey: "lie")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.actionType = ActionType(rawValue: aDecoder.decodeObject(forKey: "actionType") as! String)!
+        self.attackingPlayer = aDecoder.decodeInteger(forKey: "attackingPlayer")
+        self.defendingPlayer = aDecoder.decodeInteger(forKey: "defendingPlayer")
+        self.lie = aDecoder.decodeBool(forKey: "lie")
     }
 }
