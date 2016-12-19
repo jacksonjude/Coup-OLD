@@ -20,7 +20,7 @@ public class _Game: NSManagedObject {
         return "Game"
     }
 
-    public class func entity(_ managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
+    public class func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
         return NSEntityDescription.entity(forEntityName: self.entityName(), in: managedObjectContext)
     }
 
@@ -31,20 +31,20 @@ public class _Game: NSManagedObject {
     }
 
     public convenience init?(managedObjectContext: NSManagedObjectContext) {
-        guard let entity = _Game.entity(managedObjectContext) else { return nil }
+        guard let entity = _Game.entity(managedObjectContext: managedObjectContext) else { return nil }
         self.init(entity: entity, insertInto: managedObjectContext)
     }
 
     // MARK: - Properties
 
     @NSManaged public
-    var cards: Data?
+    var cards: NSData?
 
     @NSManaged public
-    var dateStarted: Date?
+    var dateStarted: NSDate?
 
     @NSManaged public
-    var dateUpdated: Date?
+    var dateUpdated: NSDate?
 
     @NSManaged public
     var name: String?

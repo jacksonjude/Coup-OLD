@@ -33,6 +33,10 @@ class MultiplayerViewController: UIViewController
     var canChallenge = false
     var initilizeProcess = true
     var coinPileState = 0
+    var playerCoins: [String:Int] = [:]
+    var playerCards: [String:Int] = [:]
+    var playerAlias: [String:Int] = [:]
+    var pressTimer = Date()
     
     @IBOutlet weak var firstCard: UIImageView!
     @IBOutlet weak var secondCard: UIImageView!
@@ -72,8 +76,12 @@ class MultiplayerViewController: UIViewController
         self.hostNumber = NSNumber(value: arc4random())
         self.hostNumbers.insert(Int(self.hostNumber!), at: self.hostNumbers.count)
         
-        let hostData = self.formatData(["message", "host"], values: ["hostNumber", self.hostNumber!])
+        let hostData = self.formatData(["message", "host", "alias"], values: ["hostNumber", self.hostNumber!, GKLocalPlayer.localPlayer().alias!])
         self.gamesViewController!.sendData(self.match, withData: hostData)
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
     
     func toggleChallengeButton()
@@ -90,8 +98,19 @@ class MultiplayerViewController: UIViewController
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        self.pressTimer = Date()
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
     {
+        var longPress = false
+        if self.pressTimer.timeIntervalSinceNow > 1.5
+        {
+            longPress = true
+        }
+        
         for coin in self.coins
         {
             if coin.selectable && coin.frame.contains(touches.first!.location(in: self.view))
@@ -208,40 +227,52 @@ class MultiplayerViewController: UIViewController
         
         if self.coinPile.frame.contains(touches.first!.location(in: self.view))
         {
-            self.coinPileState += 1
-            if coinPileState == 4
+            if longPress
             {
-                self.coinPileState = 0
+                for _ in 0..<self.coinPileState
+                {
+                    self.coins.append(Coin())
+                }
+                
+                self.organizeCoins()
             }
-            
-            switch coinPileState
+            else
             {
-                case 0:
-                    self.coinPile.image = #imageLiteral(resourceName: "coinPile")
-                case 1:
-                    self.coinPile.image = #imageLiteral(resourceName: "coinPileIncome")
-                case 2:
-                    self.coinPile.image = #imageLiteral(resourceName: "coinPileFA")
-                case 3:
-                    var lie = true
-                    for card in self.cards
-                    {
-                        if card.cardType == .duke
+                self.coinPileState += 1
+                if coinPileState == 4
+                {
+                    self.coinPileState = 0
+                }
+                
+                switch coinPileState
+                {
+                    case 0:
+                        self.coinPile.image = #imageLiteral(resourceName: "coinPile")
+                    case 1:
+                        self.coinPile.image = #imageLiteral(resourceName: "coinPileIncome")
+                    case 2:
+                        self.coinPile.image = #imageLiteral(resourceName: "coinPileFA")
+                    case 3:
+                        var lie = true
+                        for card in self.cards
                         {
-                            lie = false
+                            if card.cardType == .duke
+                            {
+                                lie = false
+                            }
                         }
-                    }
-                    
-                    if lie
-                    {
-                        self.coinPile.image = #imageLiteral(resourceName: "coinPileTutLie")
-                    }
-                    else
-                    {
-                        self.coinPile.image = #imageLiteral(resourceName: "coinPileTut")
-                    }
-                default:
-                    break
+                        
+                        if lie
+                        {
+                            self.coinPile.image = #imageLiteral(resourceName: "coinPileTutLie")
+                        }
+                        else
+                        {
+                            self.coinPile.image = #imageLiteral(resourceName: "coinPileTut")
+                        }
+                    default:
+                        break
+                }
             }
         }
     }
@@ -272,6 +303,7 @@ class MultiplayerViewController: UIViewController
         {
             let recivedHostNumber = unarchiver.decodeObject(forKey: "host") as! NSNumber
             self.hostNumbers.insert(Int(recivedHostNumber), at: self.hostNumbers.count)
+            self.playerAlias[unarchiver.decodeObject(forKey: "alias") as! String] = recivedHostNumber as Int
             
             if self.hostNumbers.count == self.playerCount+1
             {
@@ -327,9 +359,6 @@ class MultiplayerViewController: UIViewController
             {
                 self.recivedTurns += 1
             }
-            
-            //undo
-            self.targetPlayer = Int(playerOrder)
         }
         
         if message == "playAction"
@@ -371,6 +400,16 @@ class MultiplayerViewController: UIViewController
                 
                 self.setCardImages(true, secondCardShouldDraw: true)
             }
+        }
+        
+        if message == "staus"
+        {
+            let cards = unarchiver.decodeInteger(forKey: "cards")
+            let coins = unarchiver.decodeInteger(forKey: "coins")
+            let alias = unarchiver.decodeObject(forKey: "alias") as! String
+            
+            self.playerCards[alias] = cards
+            self.playerCoins[alias] = coins
         }
     }
     
@@ -523,8 +562,8 @@ class MultiplayerViewController: UIViewController
     
     func organizeCoins()
     {
-        let xPos: [CGFloat] = [50, 100, 150]
-        let yPos: [CGFloat] = [-50, -50, -50]
+        let xPos: [CGFloat] = [50, 100, 150, 200, 250]
+        let yPos: [CGFloat] = [-50, -50, -50, -50, -50]
         
         var coinNumber = 0
         
@@ -604,6 +643,13 @@ class MultiplayerViewController: UIViewController
                 }
             }
         }
+        
+        for _ in 0..<coinsSelected
+        {
+            self.coins.removeLast()
+        }
+        
+        self.organizeCoins()
         
         let action = Action(actionType: move, attackingPlayer: self.playerNumber as NSNumber, defendingPlayer: self.targetPlayer as NSNumber, lie: lie)
         
@@ -707,5 +753,10 @@ class MultiplayerViewController: UIViewController
                 }
             }
         }
+    }
+    
+    func sendResourceStatus()
+    {
+        self.gamesViewController!.sendData(self.match, withData: self.formatData(["message", "coins", "cards", "alias"], values: ["status", self.coins.count, self.cards.count, GKLocalPlayer.localPlayer().alias!]))
     }
 }
